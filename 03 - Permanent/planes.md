@@ -1,2 +1,0 @@
-- Ir a acampar con Soto y su novia al Jardin Botanico
-- 

@@ -77,21 +77,27 @@ Plataforma: Web
   - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/02 - Scraping/ApifyActors|Apify Actors]]
   - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/02 - Scraping/EjemplosQueries|Ejemplos de Queries]]
   - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/02 -Scraping/MencionesExternas|Scraping de Menciones Externas]]
-- 03 - BaseDeDatos
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - Base De Datos/Guardar Publicaciones|Guardar Publicaciones]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - BaseDeDatos/Tablas|Tablas Principales]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - BaseDeDatos/Relaciones|Relaciones Entre Entidades]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - BaseDeDatos/Migraciones|Migraciones]]
-- 04 - Backend_API
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend_API/Endpoints|Endpoints de la API]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend_API/Servicios|Servicios]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend_API/Autenticacion|Autenticación]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend_API/LogsErrores|Logs y Errores]]
+- 03 - Base de Datos
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - Base de Datos/Guardar Publicaciones|Guardar Publicaciones]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - Base de Datos/Tablas Principales|Tablas Principales]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - Base de Datos/Relaciones Entre Entidades|Relaciones Entre Entidades]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/03 - Base de Datos/Migraciones|Migraciones DB]]
+- 04 - Backend
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend/Endpoints de la API|Endpoints de la API]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend/Servicios|Servicios Node/Next]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend/Autenticacion|Autenticación y Bearer]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/04 - Backend/Logs Errores|Tracking y Logs]]
 - 05 - Frontend
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/Dashboard|Dashboard]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/ComponentesUI|Componentes UI]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/Graficas|Gráficas y Visualizaciones]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/RolesDeUsuario|Roles de Usuario]]
-- 06 - NotasRapidas
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/06 - NotasRapidas/TODO|Lista de Tareas (TODO)]]
-  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/06 - NotasRapidas/Ideas|Ideas Rápidas]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/Dashboard|Dashboard Structure]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/Componentes UI|Componentes Core]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/Graficas y Visualizaciones|Modelos Gráficos]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/05 - Frontend/Roles de Usuario|RBAC Roles de Acceso]]
+- 06 - Notas Rapidas
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/06 - Notas Rapidas/TODO|Lista de Tareas (TODO)]]
+  - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/06 - Notas Rapidas/Ideas|Lluvia de Ideas]]
+
+---
+## 🔗 Navegación
+- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
