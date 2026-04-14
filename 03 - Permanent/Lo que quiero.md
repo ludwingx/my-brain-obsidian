@@ -1,0 +1,104 @@
+## Lo que ya tengo
+- [x] Perfume Kaiak Aero
+- [x] Desodorante barra Speed Carbon Activated
+- [x] Cepillo de ortodoncia
+- [x] 2 Crema exfoliante con carbon activado y acido 
+- [x] Neceser Negro 20 x 14 cm
+- [x] Termo Cosmo 500 ml
+- [x] Jarra electrica 900 ml 
+- [x] Pasta termica generica
+- [x] Mouse y teclado Logitech
+- [x] 2 Monitores samsung de 19" 
+- [x] Gabinete 
+- [x] Core i3 de 4ta gen
+- [x] Fuente de poder generica 500 W
+- [x] Estabilizador Forza de 2200 W
+- [x] Cable Usb C
+- [x] Cable micro usb / V8
+- [x] Mouse pad 1,5 mtrs
+- [x] Mouse pad 1 mtr
+- [x] Ambientador de eucalipto
+- [x] Parlantes Philips
+- [x] Cable rj45 20 Metros
+- [x] Playadito 
+- [x] Termo para terere con cubierta de cuero
+- [x] Vaso de acero con cubierta de cuero para tereré
+- [x] Bombilla para matear basica negra con
+- [x] Cable Auxiliar a Auxiliar
+- [x] 2 Talco para pies Rexona 300 gr
+- [x] Jabon para rostro casero
+- [x] Jabon natura para el cuerpo
+- [x] Pasta dental basica
+- [x] disipador deepcool   
+- [x] Tarjeta madre HB1M-A
+- [x] Memoria ram kingston 2x8 GB
+- [x] SSD Kingston 500 gb
+- [x] Muslera negra
+- [x] Mochila Ogio
+- [x] Audifonos inalambricos M22 (2 pares)
+- [x] Xiaomi Redmi note 8 pro
+- [x] Cargador Xiaomi Original con cable Usb C
+- [x] Relog Digital Casio plateado clasico
+- [x] Yerba Mate para Terere Del Campo sabor Enery
+- [x] Yerba Mate para Terere Del Campo sabor Menta Black
+- [x] Vaso con tapa termico 250 ml
+- [x] Kit de limpieza 6 en 1
+- [x] Aspiradora Soplador de mano
+- [x] Nike Air Force One White
+- [x] Teclado Redragon Ucal Pro
+- [x] Tableta grafica XP pen sTAR g405
+### Tecnología & Setup
+- [ ] Intel Core i7-4790K (700 bs)
+- [ ] Teclado Redragon Ucal Pro K673 (900 bs) 
+- [ ] Power Bank EVGA 550 W - 600 W (500 bs)
+- [ ] NVIDIA GTX 1660 Super - RTX 2060 (2250 bs)
+- [ ] Altavoces par Edifier negro  (1800 bs)
+- [x] Brazo doble para monitores
+- [ ] Chromecast
+- [ ] Reloj led digital para escritorio
+- [ ] Estuchera para mi teclado mecanico
+---
+### Cuidado Personal (Aun no voy al ortodoncista, si voy es importante todo esto)
+- [ ] Crema hidratante para cara
+- [ ] Crema corporal
+- [ ] Pasta Dental carbón activado colgate
+- [ ] Enjuague bucal carbón activado colgate
+- [ ] limpiador de dientes ortodoncia colgate
+- [ ] Cepillo de dientes carbón activado 
+- [ ] cepillo interdental
+- [ ] hilo dental
+- [ ] Kit para limpiar uñas
+- [ ] Kit para limpiar oidos
+---
+### Porear
+- [x] Mate Imperial (300 bs)
+- [ ] Canarias 1 kg 
+- [x] pajarito
+- [x] Taragüi
+- [x] Termo agua caliente 1 litro
+- [x] 2 bombillas para yerba
+- [ ] cepillo para yerba
+---
+### Vestimenta
+#### Outfits:
+ - [ ] 3 Polera negras basicas
+ - [ ] 1 Pantalon cargo 
+ - [ ] 1 pantalon jean 
+ - [ ] 1 pantalon gris
+ - [ ] 1 pantalon o cargo verde
+ - [ ] 1 pantalon cafe
+ - [ ] 2 poleras blancas basicas
+ - [ ] 1 pantalon jean azul oscuro
+ - [ ] 2 poleras basicas verdes olivo
+ - [ ] 2 poleras grises basicas
+ - [ ] 1 canguro negro
+ - [ ] 1 canguro azul
+ - [ ] 2 poleras basicas azules oscuros
+ - [ ] 1 pantalon negro
+ - [ ] 12 calcetines
+#### Zapatos:
+ - [ ] blancos
+ - [ ] converse negros o grises
+ - [ ] tenis grises
+---
+### 

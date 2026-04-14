@@ -1,0 +1,17 @@
+Área 1: Clonación 
+- [ ] Electricidad
+- [ ] Agua
+- [ ] Alcohol
+- [ ] Mesas
+- [ ] Silla
+- [ ] Tijeras
+- [ ] [[Planta Madre]]
+- [ ] [[Clones]]
+- [ ] Bandejas de clonación
+- [ ] Lana de roca o cubos de turba 
+- [ ] Vasos pequeños para los clones
+- [ ] Etiquetas para identificación
+- [ ] pulverizadores de agua
+- [ ] [[RootBoost]]
+- [ ] [[GrowDust]]
+- [ ] [[MossRoot]]

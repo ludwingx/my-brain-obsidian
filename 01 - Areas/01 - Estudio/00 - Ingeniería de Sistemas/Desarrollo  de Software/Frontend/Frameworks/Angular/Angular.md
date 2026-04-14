@@ -1,0 +1,12 @@
+#TypeScript
+[[Introducción a Angular]]
+[[Componentes]]
+[[Directivas ]]
+[[Pipes]]
+[[Servicios]]
+[[Módulos]]
+[[Routing]]
+[[Formularios]]
+[[Interacción con Backend (HTTP)]]
+[[Testing en Angular]]
+[[Despliegue de aplicaciones Angular]]
