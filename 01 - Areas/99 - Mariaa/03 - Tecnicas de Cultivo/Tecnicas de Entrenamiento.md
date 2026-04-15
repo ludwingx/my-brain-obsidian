@@ -7,9 +7,9 @@ tags:
   - Poda
   - Clonacion
 ---
-# âœ‚ï¸ TÃ©cnicas de Entrenamiento y ClonaciÃ³n
+# Tecnicas de Entrenamiento y Clonación
 
-Maximizar la producciÃ³n controlando la forma y la genÃ©tica de la planta.
+Maximizar la producción controlando la forma y la genética de la planta.
 
 ## 1. Podas de Alto Rendimiento
 
@@ -28,29 +28,29 @@ Similar a la apical pero dejando un 10-20% del brote.
 
 ## 2. LST (Low Stress Training)
 Doblar las ramas suavemente con amarras para que toda la planta reciba luz por igual.
-- **Ventaja:** No hay estrÃ©s de corte, la recuperaciÃ³n es instantÃ¡nea.
+- **Ventaja:** No hay estrés de corte, la recuperación es instantánea.
 - **Forma:** La planta crece hacia los lados, no solo hacia arriba.
 
 ---
 
-## 3. ClonaciÃ³n y Esquejes (Area 1 Legacy)
+## 3. Clonación y Esquejes (Area 1 Legacy)
 *Referencia a archivos heredados de Area 1.*
 
-- [[Guia Maestra de Clonacion|GuÃ­a de ClonaciÃ³n Detallada]]
-- [[Mantenimiento de Planta Madre|Mantenimiento de GenÃ©ticas]]
+- [[Guia Maestra de Clonacion|Guía de Clonación Detallada]]
+- [[Mantenimiento de Planta Madre|Mantenimiento de Genéticas]]
 
 **Productos Sugeridos para Clones:**
-- [[Catalogo de Productos Propios#3. Root Boost|RootBoost (FÃ³rmula Casera)]]
-- [[Catalogo de Productos Propios#1. Grow Dust|Grow Dust (FÃ³rmula Casera)]]
+- [[Catalogo de Productos Propios#3. Root Boost|RootBoost (Fórmula Casera)]]
+- [[Catalogo de Productos Propios#1. Grow Dust|Grow Dust (Fórmula Casera)]]
 
 ---
 
-## ðŸ”— Relacionado
+## Relacionado
 - [[../01 - Ciclo de Vida/Ciclo de Vida|Ciclo de Crecimiento]]
-- [[../00 - GuÃ­a Maestra|Volver al Inicio]]
+- [[../00 - Guía Maestra|Volver al Inicio]]
 
 ---
-## ?? Navegación
+## Navegación
 - [[00 - Guía Maestra|Volver a la Guía Maestra]]
 - [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
 - [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]

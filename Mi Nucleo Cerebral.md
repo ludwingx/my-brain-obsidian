@@ -50,7 +50,7 @@ Ecosistema de SaaS, bots y proyectos de agencias.
 - [[10 - BrainBot/README|BrainBot]]
 - [[12 - OBMarketOps/README|OBMarketOps]]
 - [[00 - Sistema Santa Cruz Alimentos/README|Sistema Santa Cruz Alimentos]]
--
+- [[OB Universe]] — Portal Interno y Núcleo Operativo
 ---
 
 ## 📌 Estado del Sistema

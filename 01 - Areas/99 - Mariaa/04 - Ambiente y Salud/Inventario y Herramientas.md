@@ -6,12 +6,12 @@ tags:
   - Herramientas
   - Inventario
 ---
-# ðŸ›’ Inventario de Herramientas y Materiales
+# Inventario de Herramientas y Materiales
 
-Un cultivo exitoso requiere preparaciÃ³n. AquÃ­ se detallan los insumos necesarios para cada fase del proyecto.
+Un cultivo exitoso requiere preparación. Aquí se detallan los insumos necesarios para cada fase del proyecto.
 
-## ðŸ§ª 1. Kit de ClonaciÃ³n y PropagaciÃ³n
-*Equipamiento para el Ãrea 1.*
+## 1. Kit de Clonación y Propagación
+*Equipamiento para el Área 1.*
 
 - **Higiene:** Alcohol isopropÃ­lico (70%), guantes de nitrilo, bisturÃ­ estÃ©ril.
 - **Soportes:** Bandejas de clonaciÃ³n (Propagadores con domo), Vasos pequeÃ±os.
@@ -23,34 +23,34 @@ Un cultivo exitoso requiere preparaciÃ³n. AquÃ­ se detallan los insumos nece
 
 ---
 
-## ðŸª´ 2. Kit de Vegetativo y FloraciÃ³n
-*Mantenimiento de la planta en crecimiento y producciÃ³n.*
+## 2. Kit de Vegetativo y Floración
+*Mantenimiento de la planta en crecimiento y producción.*
 
 - **Macetas:** Sopladas o Geotextiles (promueven poda radicular por aire).
 - **Riego:** Regaderas con lluvia fina o sistema de goteo.
 - **Pulverizadores:** Uno para agua limpia y otro para preventivos (Aceite de Neem).
-- **IdentificaciÃ³n:** Etiquetas resistentes a la humedad para marcar variedades y fechas.
+- **Identificación:** Etiquetas resistentes a la humedad para marcar variedades y fechas.
 
 ---
 
-## ðŸ› ï¸ 3. Herramientas de Mantenimiento
-- **Tijeras:** Un par de podadora gruesa y un par de precisiÃ³n (para manicurado).
+## 3. Herramientas de Mantenimiento
+- **Tijeras:** Un par de podadora gruesa y un par de precisión (para manicurado).
 - **Microscopio USB / Lupa 60x:** Esencial para ver los tricomas y decidir la cosecha.
-- **MediciÃ³n:** Medidor de pH digital y TermohigrÃ³metro (mide temp y humedad).
+- **Medición:** Medidor de pH digital y Termohigrómetro (mide temp y humedad).
 
 ---
 
-## ðŸ—ï¸ 4. Mobiliario de Trabajo
-- Mesas de trabajo limpias y cÃ³modas.
-- Sillas ergonÃ³micas (el manicurado toma horas).
-- IluminaciÃ³n de soporte.
+## 4. Mobiliario de Trabajo
+- Mesas de trabajo limpias y cómodas.
+- Sillas ergonómicas (el manicurado toma horas).
+- Iluminación de soporte.
 
-## ðŸ”— Relacionado
+## Relacionado
 - [[Planificacion y Cronograma|Cronograma de Uso]]
-- [[Guia Maestra de Clonacion|GuÃ­a de uso de herramientas]]
+- [[Guia Maestra de Clonacion|Guía de uso de herramientas]]
 
 ---
-## ?? Navegación
+## Navegación
 - [[00 - Guía Maestra|Volver a la Guía Maestra]]
 - [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
 - [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
