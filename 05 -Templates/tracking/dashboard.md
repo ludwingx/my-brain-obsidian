@@ -1,39 +1,30 @@
+# 📊 Heatmap
+
 ```dataviewjs
-const PATH = "tracking/daily";
-const PARAM = "habito";
----
+const data = {
+    intensityScaleStart: 1,
+    intensityScaleEnd: 5,
+    colors: {
+        green: [
+            "#ebedf0",
+            "#c6e48b",
+            "#7bc96f",
+            "#239a3b",
+            "#196127"
+        ]
+    },
+    entries: []
+}
 
-## ⚠️ Mini decisión importante
+for(let page of dv.pages('"05 -Templates/tracking/daily"')){
+    if(page.habito){
+        data.entries.push({
+            date: page.file.name,
+            intensity: Number(page.habito)
+            // 👇 sin content → sin texto dentro
+        })
+    }
+}
 
-Tienes 2 estilos:
-
-### 1. Minimalista (recomendado)
-Solo usas daily notes + frontmatter
-
-👉 simple, rápido, limpio
-
----
-
-### 2. Overengineered (tentador pero peligroso)
-Separar cada hábito en archivos distintos
-
-👉 no lo hagas aún  
-👉 te vas a complicar sin necesidad
-
----
-
-## 🧩 Conclusión
-
-Sí, crea una carpeta solo de `.md` — pero que sea:
-
-- 📅 basada en fechas
-- 📂 bien aislada
-- ⚙️ pensada para Dataview
-
----
-
-Si quieres, en el siguiente paso :contentReference[oaicite:0]{index=0}:
-
-> “tracker estilo dev + vida real (gym, weed, código, productividad, mood) con métricas interesantes”
-
-Eso ya se pone bastante potente 😏
+renderHeatmapCalendar(this.container, data)
+```
