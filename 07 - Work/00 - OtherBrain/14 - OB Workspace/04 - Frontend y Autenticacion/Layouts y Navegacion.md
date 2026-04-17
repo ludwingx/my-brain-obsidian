@@ -18,65 +18,22 @@ El diseño de **OB Workspace** se basa en un layout "App-Shell" que maximiza el 
 
 El sidebar cambia o destaca elementos según el rol y el contexto actual:
 
-```typescript
-// components/layout/sidebar.tsx
-'use client'
+**Componentes del Sidebar:**
+- Logo/Brand: "OB Workspace"
+- Navegación: Items filtrados por rol del usuario
+- ScrollArea: Para navegación larga
+- ProjectSelector: Selector de proyecto en el footer
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { usePathname } from 'next/navigation'
+**Items de navegación:**
+- Dashboard, Proyectos, Tickets, Time Tracking: Todos
+- Analytics, Finanzas, Admin: Solo CEO
+- Chat IA: Todos
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Proyectos', href: '/dashboard/projects', icon: Folder },
-  { name: 'Tickets', href: '/dashboard/tickets', icon: Ticket },
-  { name: 'Time Tracking', href: '/dashboard/tracking', icon: Clock },
-  { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart, roles: ['CEO'] },
-  { name: 'Finanzas', href: '/dashboard/finances', icon: DollarSign, roles: ['CEO'] },
-  { name: 'Chat IA', href: '/dashboard/ai', icon: Bot },
-  { name: 'Admin', href: '/dashboard/admin', icon: Settings, roles: ['CEO'] },
-]
-
-export function Sidebar() {
-  const pathname = usePathname()
-  const user = useCurrentUser()
-
-  return (
-    <aside className="w-64 border-r bg-card">
-      <div className="flex h-full flex-col">
-        <div className="p-4 border-b">
-          <h1 className="text-xl font-bold">OB Workspace</h1>
-        </div>
-
-        <ScrollArea className="flex-1">
-          <nav className="space-y-1 p-2">
-            {navigation
-              .filter((item) => !item.roles || item.roles.includes(user.role))
-              .map((item) => (
-                <Button
-                  key={item.href}
-                  variant={pathname === item.href ? 'secondary' : 'ghost'}
-                  className={cn('w-full justify-start', pathname === item.href && 'bg-secondary')}
-                  asChild
-                >
-                  <Link href={item.href}>
-                    <item.icon className="mr-2 h-4 w-4" />
-                    {item.name}
-                  </Link>
-                </Button>
-              ))}
-          </nav>
-        </ScrollArea>
-
-        <div className="p-4 border-t">
-          <ProjectSelector />
-        </div>
-      </div>
-    </aside>
-  )
-}
-```
+**Comportamiento:**
+- Filtra items según el rol del usuario
+- Destaca item activo con variant 'secondary'
+- Usa íconos de Lucide
+- Ancho fijo de 64 unidades
 
 **Características del Sidebar:**
 
@@ -87,37 +44,21 @@ export function Sidebar() {
 
 #### 2. Header Global
 
-```typescript
-// components/layout/header.tsx
-'use client'
+**Componentes del Header (izquierda):**
+- MobileSidebarTrigger: Botón hamburguesa para móviles
+- Breadcrumb: Navegación jerárquica
 
-import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { ModeToggle } from '@/components/mode-toggle'
-import { TimerDisplay } from '@/components/timer/timer-display'
+**Componentes del Header (derecha):**
+- TimerDisplay: Cronómetro de sesión activa
+- CommandTrigger: Botón para abrir CMDK (Cmd+K)
+- ModeToggle: Cambio de tema claro/oscuro
+- UserMenu: Menú de usuario con avatar
 
-export function Header() {
-  const user = useCurrentUser()
-
-  return (
-    <header className="h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-full items-center justify-between px-4">
-        <div className="flex items-center gap-4">
-          <MobileSidebarTrigger />
-          <Breadcrumb />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <TimerDisplay />
-          <CommandTrigger />
-          <ModeToggle />
-          <UserMenu />
-        </div>
-      </div>
-    </header>
-  )
-}
-```
+**Estilos:**
+- Altura fija de 16 unidades
+- Efecto backdrop-blur
+- Borde inferior
+- Espaciado uniforme
 
 #### 3. Componentes de UI (Radix + Shadcn)
 
@@ -125,356 +66,216 @@ export function Header() {
 
 Implementado con arrastrar y soltar (Dnd-kit o similar), interactuando directamente con las *Server Actions*:
 
-```typescript
-// components/kanban/kanban-board.tsx
-'use client'
+**Librería:** Dnd-kit para drag and drop
 
-import { DndContext, DragEndEvent } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { updateTicketStatus } from '@/app/actions/tickets'
+**Columnas del Kanban:**
+- TODO: Tickets pendientes
+- IN_PROGRESS: En desarrollo
+- IN_REVIEW: En revisión
+- DONE: Completados
 
-export function KanbanBoard({ tickets }: { tickets: Ticket[] }) {
-  const columns = ['TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE']
+**Flujo de interacción:**
+1. Usuario arrastra ticket a otra columna
+2. Evento DragEnd captura ticketId y newStatus
+3. Llama a Server Action updateTicketStatus
+4. Revalida rutas automáticamente
 
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event
-    if (!over) return
-
-    const ticketId = active.id as string
-    const newStatus = over.id as string
-
-    await updateTicketStatus(ticketId, newStatus)
-  }
-
-  return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div className="grid grid-cols-4 gap-4">
-        {columns.map((column) => (
-          <SortableContext
-            key={column}
-            id={column}
-            items={tickets.filter(t => t.status === column)}
-            strategy={verticalListSortingStrategy}
-          >
-            <KanbanColumn
-              title={column}
-              tickets={tickets.filter(t => t.status === column)}
-            />
-          </SortableContext>
-        ))}
-      </div>
-    </DndContext>
-  )
-}
-```
+**Layout:**
+- Grid de 4 columnas
+- Gap de 4 unidades
+- SortableContext para ordenamiento vertical
 
 **Timer Flotante:**
 
 Un componente global (Client Component) que persiste mientras el usuario navega, mostrando el tiempo de la `WorkSession` activa:
 
-```typescript
-// components/timer/timer-display.tsx
-'use client'
+**Estados:**
+- isActive: Boolean indicando si el timer está corriendo
+- elapsed: Segundos transcurridos
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Play, Pause, Square } from 'lucide-react'
+**Lógica:**
+- Intervalo de 1 segundo cuando isActive es true
+- Formato: HH:MM:SS
+- Persiste mientras el usuario navega
 
-export function TimerDisplay() {
-  const [isActive, setIsActive] = useState(false)
-  const [elapsed, setElapsed] = useState(0)
-
-  useEffect(() => {
-    if (!isActive) return
-
-    const interval = setInterval(() => {
-      setElapsed(prev => prev + 1)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [isActive])
-
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const minutes = Math.floor((seconds % 3600) / 60)
-    const secs = seconds % 60
-    return `${hours}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-  }
-
-  return (
-    <div className="flex items-center gap-2">
-      {isActive ? (
-        <>
-          <span className="font-mono text-sm">{formatTime(elapsed)}</span>
-          <Button size="icon" variant="ghost" onClick={() => setIsActive(false)}>
-            <Pause className="h-4 w-4" />
-          </Button>
-        </>
-      ) : (
-        <Button size="icon" variant="ghost" onClick={() => setIsActive(true)}>
-          <Play className="h-4 w-4" />
-        </Button>
-      )}
-    </div>
-  )
-}
-```
+**UI:**
+- Muestra tiempo en formato monoespaciado
+- Botón Play/Pause con íconos de Lucide
+- Estilo ghost para no distraer
+- Visible en header global
 
 **Comandos Rápidos (CMDK):**
 
 Una barra de búsqueda tipo Raycast (`Cmd+K`) para saltar rápidamente entre tickets o proyectos:
 
-```typescript
-// components/command/command-palette.tsx
-'use client'
+**Librería:** CMDK (Command Palette)
 
-import { Command } from 'cmdk'
-import { useEffect, useState } from 'react'
-import { searchTickets, searchProjects } from '@/app/actions/search'
+**Atajo de teclado:** Cmd+K (Mac) o Ctrl+K (Windows)
 
-export function CommandPalette() {
-  const [open, setOpen] = useState(false)
-  const [query, setQuery] = useState('')
-  const [results, setResults] = useState({ tickets: [], projects: [] })
+**Funcionalidades:**
+- Busca tickets y proyectos simultáneamente
+- Mínimo 2 caracteres para buscar
+- Resultados agrupados por tipo
+- Navegación con teclado
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen(open => !open)
-      }
-    }
+**Server Actions:**
+- searchTickets(query): Busca tickets por título/descripción
+- searchProjects(query): Busca proyectos por nombre
 
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, [])
-
-  useEffect(() => {
-    if (query.length < 2) return
-
-    Promise.all([
-      searchTickets(query),
-      searchProjects(query)
-    ]).then(([tickets, projects]) => {
-      setResults({ tickets, projects })
-    })
-  }, [query])
-
-  return (
-    <Command.Dialog open={open} onOpenChange={setOpen}>
-      <Command.Input
-        placeholder="Buscar tickets, proyectos..."
-        value={query}
-        onValueChange={setQuery}
-      />
-      <Command.List>
-        {results.tickets.length > 0 && (
-          <Command.Group heading="Tickets">
-            {results.tickets.map(ticket => (
-              <Command.Item key={ticket.id} value={ticket.id}>
-                {ticket.title}
-              </Command.Item>
-            ))}
-          </Command.Group>
-        )}
-        {results.projects.length > 0 && (
-          <Command.Group heading="Proyectos">
-            {results.projects.map(project => (
-              <Command.Item key={project.id} value={project.id}>
-                {project.name}
-              </Command.Item>
-            ))}
-          </Command.Group>
-        )}
-      </Command.List>
-    </Command.Dialog>
-  )
-}
-```
+**UI:**
+- Input con placeholder
+- Groups: "Tickets" y "Proyectos"
+- Items clickeables para navegar
 
 ### Visualización de Datos
 
 Uso de componentes de **Tremor** o **Recharts** en el dashboard del CEO para visualizar la quema de presupuesto (`Expenses`) versus el progreso técnico (`Tickets Done`):
 
-```typescript
-// components/analytics/charts.tsx
-'use client'
+**Librería:** Recharts o Tremor
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+**Datos visualizados:**
+- Presupuesto: Monto total del proyecto
+- Gastado: Suma de expenses del proyecto
+- Progreso: Porcentaje de tickets en estado DONE
 
-export function BudgetVsProgressChart({ projects }: { projects: Project[] }) {
-  const data = projects.map(project => ({
-    name: project.name,
-    budget: project.budget,
-    spent: project.expenses.reduce((sum, e) => sum + e.amount, 0),
-    progress: (project.tickets.filter(t => t.status === 'DONE').length / project.tickets.length) * 100
-  }))
+**Componentes del gráfico:**
+- ResponsiveContainer: Adaptable al contenedor
+- BarChart: Gráfico de barras
+- CartesianGrid: Líneas de guía
+- XAxis: Nombres de proyectos
+- YAxis: Valores monetarios
+- Tooltip: Información al hover
+- Bars: Presupuesto (azul) y Gastado (verde)
 
-  return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="budget" fill="#8884d8" name="Presupuesto" />
-        <Bar dataKey="spent" fill="#82ca9d" name="Gastado" />
-      </BarChart>
-    </ResponsiveContainer>
-  )
-}
-```
+**Uso:** Dashboard del CEO para análisis financiero
 
 ### Layouts por Contexto
 
 #### Dashboard Layout
 
-```typescript
-// app/(dashboard)/layout.tsx
-import { Sidebar } from '@/components/layout/sidebar'
-import { Header } from '@/components/layout/header'
+**Estructura del layout:**
+- Sidebar: Navegación lateral fija (izquierda)
+- Header: Barra superior fija
+- Main: Área de contenido scrollable
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-y-auto p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  )
-}
+**Layout:**
+- Flex container horizontal
+- Sidebar con ancho fijo
+- Área principal con flex-1
+- Header con altura fija
+- Main con overflow-y-auto
+
+**Padding:**
+- Main tiene padding de 6 unidades
+- Contenido centrado y legible
+
+### Diagrama de Estructura de Layout (Dashboard)
+
+```mermaid
+graph TB
+    A[Dashboard Layout] --> B[Sidebar]
+    A --> C[Header]
+    A --> D[Main Content]
+
+    B --> B1[Logo/Brand]
+    B --> B2[Navegación Filtrada por Rol]
+    B --> B3[ScrollArea]
+    B --> B4[ProjectSelector]
+
+    C --> C1[MobileSidebarTrigger]
+    C --> C2[Breadcrumb]
+    C --> C3[TimerDisplay]
+    C --> C4[CommandTrigger CMDK]
+    C --> C5[ModeToggle]
+    C --> C6[UserMenu]
+
+    D --> D1[Kanban Board]
+    D --> D2[Charts/Analytics]
+    D --> C3[Forms/Dialogs]
+    D --> D4[Timers/Floating Components]
+
+    B2 --> E1[Dashboard - Todos]
+    B2 --> E2[Proyectos - Todos]
+    B2 --> E3[Tickets - Todos]
+    B2 --> E4[Time Tracking - Todos]
+    B2 --> E5[Analytics - Solo CEO]
+    B2 --> E6[Finanzas - Solo CEO]
+    B2 --> E7[Admin - Solo CEO]
+    B2 --> E8[Chat IA - Todos]
 ```
 
 #### Portal Layout (Clientes Externos)
 
-```typescript
-// app/(portal)/layout.tsx
-import { PortalHeader } from '@/components/layout/portal-header'
+**Estructura del layout:**
+- PortalHeader: Header específico para clientes externos
+- Main: Área de contenido centrada
 
-export default function PortalLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div className="min-h-screen bg-background">
-      <PortalHeader />
-      <main className="container mx-auto py-8">
-        {children}
-      </main>
-    </div>
-  )
-}
-```
+**Layout:**
+- Sin sidebar (más simple)
+- Container con max-width
+- Padding vertical de 8 unidades
+- Min-height-screen
+
+**Diferencias con Dashboard:**
+- Sin navegación lateral
+- Header simplificado
+- Foco en visibilidad del progreso
+- Diseño más limpio para clientes
 
 ### Patrones de UX
 
 #### 1. Optimistic Updates
 
-```typescript
-// components/kanban/ticket-card.tsx
-'use client'
+**Hook:** useOptimistic de React
 
-import { useOptimistic } from 'react'
+**Flujo:**
+1. Usuario arrastra ticket
+2. addOptimisticTicket actualiza UI inmediatamente
+3. updateTicketStatus se llama al servidor
+4. Si falla, UI revierte al estado original
 
-export function TicketCard({ ticket }: { ticket: Ticket }) {
-  const [optimisticTicket, addOptimisticTicket] = useOptimistic(
-    ticket,
-    (state, newStatus) => ({ ...state, status: newStatus as TicketStatus })
-  )
+**Beneficios:**
+- Respuesta instantánea
+- Mejor percepción de velocidad
+- Rollback automático si falla
 
-  const handleDragEnd = async (newStatus: TicketStatus) => {
-    addOptimisticTicket(newStatus)
-    await updateTicketStatus(ticket.id, newStatus)
-  }
-
-  return (
-    <Card
-      draggable
-      onDragEnd={() => handleDragEnd('IN_PROGRESS')}
-      className={cn(
-        'cursor-grab active:cursor-grabbing',
-        optimisticTicket.status === 'IN_PROGRESS' && 'ring-2 ring-primary'
-      )}
-    >
-      <CardContent>
-        <h3 className="font-semibold">{optimisticTicket.title}</h3>
-      </CardContent>
-    </Card>
-  )
-}
-```
+**UI:**
+- Cursor grab/grabbing
+- Ring cuando está en IN_PROGRESS
+- Muestra estado optimista
 
 #### 2. Skeleton Loading
 
-```typescript
-// components/ui/skeleton.tsx
-import { cn } from '@/lib/utils'
+**Componente Skeleton:**
+- Placeholder gris con animación pulse
+- Estilo muted
 
-function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn('animate-pulse rounded-md bg-muted', className)}
-      {...props}
-    />
-  )
-}
+**Uso con Suspense:**
+- Mientras carga KanbanBoard
+- KanbanSkeleton: Grid de skeletons de tickets
+- Transición suave al cargar
 
-// Uso en KanbanBoard
-<Suspense fallback={<KanbanSkeleton />}>
-  <KanbanBoard projectId={projectId} />
-</Suspense>
-```
+**Beneficios:**
+- Mejor percepción de carga
+- Evita layout shift
+- Experiencia más profesional
 
 #### 3. Error Boundaries
 
-```typescript
-// components/error-boundary.tsx
-'use client'
+**Componente ErrorBoundary:**
+- Class Component de React
+- Captura errores en componentes hijos
+- Muestra fallback personalizado
 
-import { Component, ReactNode } from 'react'
+**Fallback por defecto:**
+- Mensaje "Error" en color destructivo
+- Instrucción para recargar la página
+- Estilo con borde y fondo
 
-interface Props {
-  children: ReactNode
-  fallback?: ReactNode
-}
-
-interface State {
-  hasError: boolean
-}
-
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { hasError: false }
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true }
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-4 border border-destructive bg-destructive/10 rounded-lg">
-          <h2 className="text-lg font-semibold text-destructive">Error</h2>
-          <p className="text-sm text-muted-foreground">Algo salió mal. Por favor recarga la página.</p>
-        </div>
-      )
-    }
-
-    return this.props.children
-  }
-}
-```
+**Beneficios:**
+- Evita que la app se rompa completamente
+- Experiencia más robusta
+- Permite recuperación del usuario
 
 ##  Relacionado
 - [[Roles RBAC|Control de Acceso (RBAC)]]

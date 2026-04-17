@@ -27,434 +27,184 @@ La interfaz no renderiza botones "Delete" condicionales solo ocultándolos media
 
 #### 1. Hook de Autenticación
 
-```typescript
-// hooks/use-auth.ts
-'use client'
+**Funcionalidades:**
+- Obtiene el usuario actual desde `/api/auth/user`
+- Maneja estados: user, loading, isAuthenticated
+- Se ejecuta automáticamente al montar el componente
+- Retorna null si hay error o no hay sesión
 
-import { useState, useEffect } from 'react'
-import { User } from '@prisma/client'
-
-export function useAuth() {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const response = await fetch('/api/auth/user')
-        if (response.ok) {
-          const userData = await response.json()
-          setUser(userData)
-        }
-      } catch (error) {
-        setUser(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchUser()
-  }, [])
-
-  return { user, loading, isAuthenticated: !!user }
-}
-```
+**Uso típico:**
+- Verificar si el usuario está autenticado
+- Obtener información del usuario (rol, nombre, etc.)
+- Mostrar estados de carga
 
 #### 2. Componente Role-Based
 
-```typescript
-// components/role-based/role-gate.tsx
-'use client'
+**Props:**
+- children: Contenido a renderizar si el usuario tiene permiso
+- allowedRoles: Array de roles permitidos
+- fallback: Contenido opcional si no tiene permiso
 
-import { useAuth } from '@/hooks/use-auth'
-import { UserRole } from '@prisma/client'
+**Lógica:**
+- Muestra estado de carga mientras obtiene el usuario
+- Si el usuario no existe o su rol no está en allowedRoles, muestra fallback
+- Si tiene permiso, renderiza children
 
-interface RoleGateProps {
-  children: React.ReactNode
-  allowedRoles: UserRole[]
-  fallback?: React.ReactNode
-}
-
-export function RoleGate({ children, allowedRoles, fallback }: RoleGateProps) {
-  const { user, loading } = useAuth()
-
-  if (loading) {
-    return <div className="animate-pulse">Cargando...</div>
-  }
-
-  if (!user || !allowedRoles.includes(user.role)) {
-    return fallback || (
-      <div className="p-4 border border-destructive bg-destructive/10 rounded-lg">
-        <p className="text-sm text-destructive">No tienes permiso para ver esta sección.</p>
-      </div>
-    )
-  }
-
-  return <>{children}</>
-}
-```
+**Uso típico:**
+- Proteger secciones completas del dashboard
+- Mostrar componentes solo a roles específicos
+- Evitar que usuarios vean UI que no pueden usar
 
 #### 3. Botones Condicionales por Rol
 
-```typescript
-// components/role-based/action-buttons.tsx
-'use client'
+**Props:**
+- ticket: Objeto del ticket
+- onEdit, onDelete, onView: Callbacks para cada acción
 
-import { useAuth } from '@/hooks/use-auth'
-import { Button } from '@/components/ui/button'
-import { Trash2, Edit, Eye } from 'lucide-react'
+**Lógica de permisos:**
+- canView: Todos pueden ver tickets
+- canEdit: CEO o lead del ticket
+- canDelete: CEO o lead del ticket
 
-interface ActionButtonsProps {
-  ticket: Ticket
-  onEdit?: () => void
-  onDelete?: () => void
-  onView?: () => void
-}
+**Características:**
+- Solo renderiza botones que el usuario puede usar
+- Usa íconos de Lucide (Eye, Edit, Trash2)
+- Estilo ghost para no distraer
+- Botón delete con color destructivo
 
-export function ActionButtons({ ticket, onEdit, onDelete, onView }: ActionButtonsProps) {
-  const { user } = useAuth()
-
-  if (!user) return null
-
-  const canEdit = user.role === 'CEO' || ticket.leadId === user.id
-  const canDelete = user.role === 'CEO' || ticket.leadId === user.id
-  const canView = true // Todos pueden ver
-
-  return (
-    <div className="flex gap-2">
-      {canView && (
-        <Button size="icon" variant="ghost" onClick={onView}>
-          <Eye className="h-4 w-4" />
-        </Button>
-      )}
-      {canEdit && (
-        <Button size="icon" variant="ghost" onClick={onEdit}>
-          <Edit className="h-4 w-4" />
-        </Button>
-      )}
-      {canDelete && (
-        <Button size="icon" variant="ghost" onClick={onDelete}>
-          <Trash2 className="h-4 w-4 text-destructive" />
-        </Button>
-      )}
-    </div>
-  )
-}
-```
+**Uso típico:**
+- Filas de tablas de tickets
+- Cards de tickets en kanban
+- Listas de proyectos
 
 #### 4. Navegación Contextual
 
-```typescript
-// components/role-based/role-navigation.tsx
-'use client'
+**Estructura de navegación:**
+- Dashboard: Todos
+- Proyectos: Todos
+- Tickets: Todos
+- Time Tracking: Todos
+- Analytics: Solo CEO
+- Finanzas: Solo CEO
+- Admin: Solo CEO
 
-import { useAuth } from '@/hooks/use-auth'
-import { UserRole } from '@prisma/client'
+**Lógica:**
+- Filtra items de navegación según el rol del usuario
+- Si item.roles está vacío, todos pueden verlo
+- Si item.roles tiene valores, solo esos roles lo ven
 
-interface NavItem {
-  title: string
-  href: string
-  icon: React.ReactNode
-  roles?: UserRole[]
-}
-
-const navigation: NavItem[] = [
-  { title: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { title: 'Proyectos', href: '/dashboard/projects', icon: Folder },
-  { title: 'Tickets', href: '/dashboard/tickets', icon: Ticket },
-  { title: 'Time Tracking', href: '/dashboard/tracking', icon: Clock },
-  { title: 'Analytics', href: '/dashboard/analytics', icon: BarChart, roles: ['CEO'] },
-  { title: 'Finanzas', href: '/dashboard/finances', icon: DollarSign, roles: ['CEO'] },
-  { title: 'Admin', href: '/dashboard/admin', icon: Settings, roles: ['CEO'] },
-]
-
-export function RoleNavigation() {
-  const { user } = useAuth()
-
-  if (!user) return null
-
-  const filteredNav = navigation.filter(
-    item => !item.roles || item.roles.includes(user.role)
-  )
-
-  return (
-    <nav className="space-y-1">
-      {filteredNav.map(item => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent"
-        >
-          <item.icon className="h-4 w-4" />
-          {item.title}
-        </Link>
-      ))}
-    </nav>
-  )
-}
-```
+**Características:**
+- Usa íconos de Lucide
+- Estilo hover con bg-accent
+- Espaciado vertical entre items
+- Responsive
 
 #### 5. Dashboard por Rol
 
-```typescript
-// app/(dashboard)/page.tsx
-import { RoleGate } from '@/components/role-based/role-gate'
-import { CEODashboard } from '@/components/dashboard/ceo-dashboard'
-import { DeveloperDashboard } from '@/components/dashboard/developer-dashboard'
-import { ClientDashboard } from '@/components/dashboard/client-dashboard'
+**Lógica de renderizado:**
+- CEO: Muestra CEODashboard (con finanzas, analytics)
+- DEVELOPER/INTERN: Muestra DeveloperDashboard (tickets asignados, time tracking)
+- EXTERNAL_CLIENT: Muestra ClientDashboard (proyectos, tickets creados)
 
-export default async function DashboardPage() {
-  const user = await getCurrentUser()
-
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-
-      <RoleGate allowedRoles={['CEO']} fallback={<DeveloperDashboard />}>
-        <CEODashboard />
-      </RoleGate>
-
-      <RoleGate allowedRoles={['DEVELOPER', 'INTERN']}>
-        <DeveloperDashboard />
-      </RoleGate>
-
-      <RoleGate allowedRoles={['EXTERNAL_CLIENT']}>
-        <ClientDashboard />
-      </RoleGate>
-    </div>
-  )
-}
-```
+**Características:**
+- Server Component (obtiene usuario en servidor)
+- Usa RoleGate para proteger cada dashboard
+- Fallback para CEO muestra DeveloperDashboard si no es CEO
+- Título común "Dashboard"
 
 ### Patrones de UI por Rol
 
 #### CEO Dashboard
 
-```typescript
-// components/dashboard/ceo-dashboard.tsx
-'use client'
+**KPIs principales:**
+- Ingresos Totales: $45,231.89 (+20.1% vs mes anterior)
+- Gastos Totales: $12,450.00 (+5.2% vs mes anterior)
+- Proyectos Activos: 12 (3 en riesgo de presupuesto)
+- Alertas: 5 (tickets estancados)
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { DollarSign, Users, TrendingUp, AlertTriangle } from 'lucide-react'
+**Secciones principales:**
+- Finanzas por Proyecto: Tabla con ingresos, gastos, rentabilidad
+- Rendimiento del Equipo: Gráfico de productividad por desarrollador
 
-export function CEODashboard() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Ingresos Totales</CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">$45,231.89</div>
-          <p className="text-xs text-muted-foreground">+20.1% vs mes anterior</p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Gastos Totales</CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">$12,450.00</div>
-          <p className="text-xs text-muted-foreground">+5.2% vs mes anterior</p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Proyectos Activos</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">12</div>
-          <p className="text-xs text-muted-foreground">3 en riesgo de presupuesto</p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Alertas</CardTitle>
-          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">5</div>
-          <p className="text-xs text-muted-foreground">Tickets estancados</p>
-        </CardContent>
-      </Card>
-
-      {/* Finanzas Section */}
-      <Card className="col-span-2">
-        <CardHeader>
-          <CardTitle>Finanzas por Proyecto</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <FinancialTable />
-        </CardContent>
-      </Card>
-
-      {/* Team Performance */}
-      <Card className="col-span-2">
-        <CardHeader>
-          <CardTitle>Rendimiento del Equipo</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <TeamPerformanceChart />
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
-```
+**Layout:**
+- Grid de 4 columnas en desktop
+- Cards con íconos de Lucide
+- Secciones amplias ocupan 2 columnas
+- Estadísticas comparativas vs mes anterior
 
 #### Developer Dashboard
 
-```typescript
-// components/dashboard/developer-dashboard.tsx
-'use client'
+**KPIs principales:**
+- Mis Tickets: 24 (8 pendientes, 16 completados)
+- Horas Trabajadas: 156h (esta semana)
+- Tickets Estancados: 2 (más de 7 días sin movimiento)
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Clock, CheckCircle, AlertCircle, Play } from 'lucide-react'
+**Secciones principales:**
+- Mis Tickets Asignados: Lista de tickets donde es lead o colaborador
+- Historial de Time Tracking: Registro de horas trabajadas por ticket
 
-export function DeveloperDashboard() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Mis Tickets</CardTitle>
-          <CheckCircle className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">24</div>
-          <p className="text-xs text-muted-foreground">8 pendientes, 16 completados</p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Horas Trabajadas</CardTitle>
-          <Clock className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">156h</div>
-          <p className="text-xs text-muted-foreground">Esta semana</p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Tickets Estancados</CardTitle>
-          <AlertCircle className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">2</div>
-          <p className="text-xs text-muted-foreground">Más de 7 días sin movimiento</p>
-        </CardContent>
-      </Card>
-
-      {/* My Tickets */}
-      <Card className="col-span-3">
-        <CardHeader>
-          <CardTitle>Mis Tickets Asignados</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <MyTicketsList />
-        </CardContent>
-      </Card>
-
-      {/* Time Tracking */}
-      <Card className="col-span-3">
-        <CardHeader>
-          <CardTitle>Historial de Time Tracking</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <TimeTrackingHistory />
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
-```
+**Layout:**
+- Grid de 3 columnas en desktop
+- Foco en productividad personal
+- Secciones amplias ocupan todo el ancho
+- Íconos de Lucide para cada KPI
 
 #### Client Dashboard
 
-```typescript
-// components/dashboard/client-dashboard.tsx
-'use client'
+**KPIs principales:**
+- Mis Proyectos: 3 (2 activos, 1 completado)
+- Tickets Creados: 45 (38 completados, 7 pendientes)
+- Progreso Global: 78% (promedio de todos los proyectos)
+- Mensajes: 12 (5 sin leer)
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { FolderOpen, CheckCircle2, Clock, MessageSquare } from 'lucide-react'
+**Secciones principales:**
+- Mis Proyectos: Lista de proyectos del cliente
+- Actividad Reciente: Historial de cambios en tickets y proyectos
 
-export function ClientDashboard() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Mis Proyectos</CardTitle>
-          <FolderOpen className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">3</div>
-          <p className="text-xs text-muted-foreground">2 activos, 1 completado</p>
-        </CardContent>
-      </Card>
+**Layout:**
+- Grid de 2 columnas en desktop
+- Foco en visibilidad del progreso
+- Secciones amplias ocupan todo el ancho
+- Íconos de Lucide para cada KPI
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Tickets Creados</CardTitle>
-          <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">45</div>
-          <p className="text-xs text-muted-foreground">38 completados, 7 pendientes</p>
-        </CardContent>
-      </Card>
+### Diagrama de Matriz de Permisos por Rol
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Progreso Global</CardTitle>
-          <Clock className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">78%</div>
-          <p className="text-xs text-muted-foreground">Promedio de todos los proyectos</p>
-        </CardContent>
-      </Card>
+```mermaid
+graph LR
+    subgraph CEO["CEO - Acceso Total"]
+        A1[Finanzas]
+        A2[Analytics]
+        A3[Admin]
+        A4[Todos los Tickets]
+        A5[Todos los Proyectos]
+    end
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Mensajes</CardTitle>
-          <MessageSquare className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">12</div>
-          <p className="text-xs text-muted-foreground">5 sin leer</p>
-        </CardContent>
-      </Card>
+    subgraph DEVELOPER["DEVELOPER - Desarrollo"]
+        B1[Tickets Asignados]
+        B2[Tickets Creados]
+        B3[Proyectos Visibles]
+        B4[Time Tracking]
+        B5[Chat IA]
+    end
 
-      {/* My Projects */}
-      <Card className="col-span-2">
-        <CardHeader>
-          <CardTitle>Mis Proyectos</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ClientProjectsList />
-        </CardContent>
-      </Card>
+    subgraph INTERN["INTERN - Tareas Asignadas"]
+        C1[Tickets Asignados]
+        C2[Time Tracking]
+        C3[Chat IA]
+        C4[Solo lectura]
+    end
 
-      {/* Recent Activity */}
-      <Card className="col-span-2">
-        <CardHeader>
-          <CardTitle>Actividad Reciente</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <RecentActivity />
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
+    subgraph CLIENT["CLIENT - Solo sus Proyectos"]
+        D1[Mis Proyectos]
+        D2[Tickets Creados]
+        D3[Progreso Visible]
+        D4[Chat IA]
+    end
+
+    style CEO fill:#e6f4ea
+    style DEVELOPER fill:#e8f0fe
+    style INTERN fill:#fce8e6
+    style CLIENT fill:#fff3e0
 ```
 
 ##  Relacionado

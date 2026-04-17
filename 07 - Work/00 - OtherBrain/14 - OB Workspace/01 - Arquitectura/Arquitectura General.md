@@ -51,71 +51,101 @@ Para lograr mantenibilidad en un SaaS tan extenso, la jerarquía en `src/app` (o
 
 ### Estructura de Carpetas Detallada
 
-```
-app/
-  (auth)/
-    login/
-      page.tsx (Server Component)
-      _components/
-        LoginForm.tsx (Client Component)
-    register/
-      page.tsx
-      _components/
-        RegisterForm.tsx
-  (dashboard)/
-    layout.tsx (Layout protegido)
-    page.tsx (Dashboard home)
-    projects/
-      page.tsx (Lista de proyectos)
-      [slug]/
-        page.tsx (Detalle proyecto)
-        _components/
-          KanbanBoard.tsx
-          CreateTicketDialog.tsx
-          ProjectHeader.tsx
-    tickets/
-      page.tsx (Lista global)
-      [id]/
-        page.tsx (Detalle ticket)
-    tracking/
-      page.tsx (Time tracking)
-    analytics/
-      page.tsx (Dashboards)
-    finances/
-      page.tsx (Finanzas - CEO only)
-    admin/
-      page.tsx (Admin - CEO only)
-  (portal)/
-    layout.tsx (Layout cliente)
-    page.tsx (Home portal)
-    projects/
-      page.tsx (Proyectos cliente)
-    tickets/
-      page.tsx (Tickets cliente)
-  api/
-    auth/
-      [...nextauth]/
-        route.ts (NextAuth config)
-    webhooks/
-      stripe/
-        route.ts (Webhooks pagos)
-components/
-  ui/ (shadcn/ui components)
-  ai/
-    ai-chat-interface.tsx
-  theme-provider.tsx
-  providers.tsx
-lib/
-  prisma.ts (Singleton Prisma)
-  permissions.ts (Lógica ABAC)
-  ia/
-    openrouter.ts (Configuración IA)
-actions/
-  tickets.ts (Server Actions tickets)
-  tracking.ts (Server Actions time tracking)
-  finances.ts (Server Actions finanzas)
-  ai.ts (Server Actions IA)
-middleware.ts (Protección de rutas)
+**app/(auth)/:**
+- `login/page.tsx` - Server Component para login
+- `login/_components/LoginForm.tsx` - Client Component con formulario
+- `register/page.tsx` - Server Component para registro
+- `register/_components/RegisterForm.tsx` - Client Component con formulario
+
+**app/(dashboard)/:**
+- `layout.tsx` - Layout protegido con sidebar y header
+- `page.tsx` - Dashboard home con métricas principales
+- `projects/page.tsx` - Lista de proyectos
+- `projects/[slug]/page.tsx` - Detalle de proyecto
+- `projects/[slug]/_components/` - Componentes específicos del proyecto
+- `tickets/page.tsx` - Lista global de tickets
+- `tickets/[id]/page.tsx` - Detalle de ticket
+- `tracking/page.tsx` - Time tracking y reportes
+- `analytics/page.tsx` - Dashboards de métricas
+- `finances/page.tsx` - Módulo financiero (CEO only)
+- `admin/page.tsx` - Configuración global (CEO only)
+
+**app/(portal)/:**
+- `layout.tsx` - Layout simplificado para clientes
+- `page.tsx` - Home del portal
+- `projects/page.tsx` - Proyectos del cliente
+- `tickets/page.tsx` - Tickets del cliente
+
+**app/api/:**
+- `auth/[...nextauth]/route.ts` - Configuración NextAuth
+- `webhooks/stripe/route.ts` - Webhooks de pagos
+
+**components/:**
+- `ui/` - shadcn/ui components reutilizables
+- `ai/ai-chat-interface.tsx` - Chat con IA
+- `theme-provider.tsx` - Provider de temas
+- `providers.tsx` - Providers globales
+
+**lib/:**
+- `prisma.ts` - Singleton Prisma
+- `permissions.ts` - Lógica ABAC
+- `ia/openrouter.ts` - Configuración IA
+
+**actions/:**
+- `tickets.ts` - Server Actions para tickets
+- `tracking.ts` - Server Actions para time tracking
+- `finances.ts` - Server Actions para finanzas
+- `ai.ts` - Server Actions para IA
+
+**middleware.ts** - Protección de rutas
+
+### Diagrama de Estructura de Carpetas
+
+```mermaid
+graph TD
+    A[app/] --> B[(auth)/]
+    A --> C[(dashboard)/]
+    A --> D[(portal)/]
+    A --> E[api/]
+    A --> F[components/]
+    A --> G[lib/]
+    A --> H[actions/]
+    A --> I[middleware.ts]
+
+    B --> B1[login/]
+    B --> B2[register/]
+    B --> B3[forgot-password/]
+
+    C --> C1[layout.tsx]
+    C --> C2[page.tsx]
+    C --> C3[projects/]
+    C --> C4[tickets/]
+    C --> C5[tracking/]
+    C --> C6[analytics/]
+    C --> C7[finances/]
+    C --> C8[admin/]
+
+    D --> D1[layout.tsx]
+    D --> D2[page.tsx]
+    D --> D3[projects/]
+    D --> D4[tickets/]
+
+    E --> E1[auth/]
+    E --> E2[webhooks/]
+
+    F --> F1[ui/]
+    F --> F2[ai/]
+    F --> F3[theme-provider.tsx]
+    F --> F4[providers.tsx]
+
+    G --> G1[prisma.ts]
+    G --> G2[permissions.ts]
+    G --> G3[ia/]
+
+    H --> H1[tickets.ts]
+    H --> H2[tracking.ts]
+    H --> H3[finances.ts]
+    H --> H4[ai.ts]
 ```
 
 ### Patrones de Arquitectura
@@ -133,27 +163,12 @@ middleware.ts (Protección de rutas)
 
 #### 2. Server Actions para Mutaciones
 **Patrón:**
-```typescript
-// app/actions/tickets.ts
-'use server'
-
-import { revalidatePath } from 'next/cache'
-import { can } from '@/lib/permissions'
-
-export async function updateTicketStatus(id: string, status: string) {
-  const user = await getCurrentUser()
-  if (!can(user, 'update', 'ticket', id)) {
-    throw new Error('Unauthorized')
-  }
-
-  await prisma.ticket.update({
-    where: { id },
-    data: { status }
-  })
-
-  revalidatePath('/dashboard/projects')
-}
-```
+- Directiva `'use server'` al inicio del archivo
+- Import de `revalidatePath` para invalidación de cache
+- Import de `can` para verificación de permisos
+- Funciones exportadas que ejecutan en servidor
+- Validación de permisos antes de mutar datos
+- Revalidación de rutas después de mutaciones
 
 **Ventajas:**
 - Validación en servidor
@@ -191,31 +206,11 @@ app/(dashboard)/projects/[slug]/
 4. **Streaming:** Progressive rendering de componentes pesados
 
 **Ejemplo de Optimización:**
-```typescript
-// app/(dashboard)/projects/[slug]/page.tsx
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const project = await prisma.project.findUnique({
-    where: { slug: params.slug },
-    include: {
-      tickets: {
-        include: {
-          subtasks: true,
-          collaborators: true
-        }
-      }
-    }
-  })
-
-  return (
-    <div>
-      <ProjectHeader project={project} />
-      <Suspense fallback={<KanbanSkeleton />}>
-        <KanbanBoard projectId={project.id} />
-      </Suspense>
-    </div>
-  )
-}
-```
+- Buscar proyecto por slug con Prisma
+- Incluir tickets, subtareas y colaboradores
+- Renderizar ProjectHeader
+- Usar Suspense con KanbanSkeleton como fallback
+- Cargar KanbanBoard de forma progresiva
 
 #### Edge Runtime para Acciones Críticas
 **Uso:** Server Actions que requieren baja latencia
@@ -224,15 +219,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 - Menos carga en servidor principal
 - Mejor experiencia de usuario
 
-**Ejemplo:**
-```typescript
-// app/actions/tracking.ts
-export const runtime = 'edge'
-
-export async function startWorkSession(subtaskId: string) {
-  // Lógica de time tracking con baja latencia
-}
-```
+**Implementación:**
+- Directiva `export const runtime = 'edge'`
+- Acciones de time tracking con baja latencia
+- Ideal para operaciones que requieren respuesta inmediata
 
 ### Patrones de Seguridad
 
@@ -240,87 +230,88 @@ export async function startWorkSession(subtaskId: string) {
 **Ubicación:** `middleware.ts`
 **Función:** Primera línea de defensa, verifica sesión antes de llegar a rutas
 
-```typescript
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get('authjs.session-token')
-  const path = request.nextUrl.pathname
+**Lógica de Verificación:**
+- Extraer token de cookies
+- Obtener path de la request
+- Verificar si path requiere autenticación
+- Redirigir a login si no hay token
+- Permitir acceso si token existe
 
-  if (path.startsWith('/dashboard') && !token) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  if (path.startsWith('/portal') && !token) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  return NextResponse.next()
-}
-```
+**Rutas Protegidas:**
+- `/dashboard/*` - Requiere sesión JWT
+- `/portal/*` - Requiere sesión JWT
+- `/login`, `/register` - Acceso público
 
 #### 2. Server Actions Defense
 **Ubicación:** `app/actions/*.ts`
 **Función:** Segunda línea de defensa, verifica permisos antes de mutar datos
 
-```typescript
-export async function deleteTicket(id: string) {
-  const user = await getCurrentUser()
-  const ticket = await prisma.ticket.findUnique({ where: { id } })
+**Lógica de Verificación:**
+- Obtener usuario actual autenticado
+- Buscar recurso en base de datos
+- Verificar permisos con función `can(user, action, resource, resourceId)`
+- Lanzar error si no tiene permisos
+- Ejecutar mutación si tiene permisos
 
-  if (!can(user, 'delete', 'ticket', ticket)) {
-    throw new Error('Unauthorized')
-  }
-
-  await prisma.ticket.delete({ where: { id } })
-}
-```
+**Protección:**
+- Verificación de permisos ABAC
+- Validación de existencia de recursos
+- Protección contra manipulación de IDs
 
 #### 3. Database-Level Filtering
 **Ubicación:** Queries de Prisma
 **Función:** Tercera línea de defensa, filtra datos por usuario
 
-```typescript
-// Cliente externo solo ve sus tickets
-const tickets = await prisma.ticket.findMany({
-  where: {
-    projectId: user.projectId // Filtrado por proyecto del cliente
-  }
-})
-```
+**Lógica de Filtrado:**
+- Cliente externo solo ve sus proyectos
+- Developer ve tickets donde es lead o colaborador
+- CEO ve todos los datos
+- Filtrado por projectId, userId, etc.
+
+**Ejemplo:**
+- Cliente externo: `where: { projectId: user.projectId }`
+- Developer: `where: { OR: [{ leadId: user.id }, { collaborators: { userId: user.id } }] }`
+- CEO: Sin filtros, acceso total
 
 ### Patrones de Caching
 
 #### 1. React Cache
 **Uso:** Cache de queries repetitivas
-**Ejemplo:**
-```typescript
-import { cache } from 'react'
+**Implementación:**
+- Importar `cache` de `react`
+- Envolver función de query con `cache()`
+- Cache persiste mientras el componente está montado
+- Evita queries duplicadas
 
-export const getProject = cache(async (slug: string) => {
-  return prisma.project.findUnique({ where: { slug } })
-})
-```
+**Beneficios:**
+- Reducción de queries a base de datos
+- Mejor rendimiento
+- Menos carga en servidor
 
 #### 2. revalidatePath
 **Uso:** Invalidación de cache después de mutaciones
+**Implementación:**
+- Importar `revalidatePath` de `next/cache`
+- Llamar después de mutación exitosa
+- Invalida cache de rutas específicas
+- Actualiza datos en UI
+
 **Ejemplo:**
-```typescript
-await prisma.ticket.update({ where: { id }, data: { status } })
-revalidatePath('/dashboard/projects')
-revalidatePath('/dashboard/tickets')
-```
+- Después de actualizar ticket: `revalidatePath('/dashboard/projects')`
+- Después de crear ticket: `revalidatePath('/dashboard/tickets')`
 
 #### 3. revalidateTag
 **Uso:** Invalidación granular por tags
-**Ejemplo:**
-```typescript
-// Fetch con tag
-const projects = await prisma.project.findMany()
-revalidateTag('projects')
+**Implementación:**
+- Asignar tag a queries específicas
+- Invalidar por tag en lugar de por path
+- Mayor granularidad de control
+- Evita invalidación excesiva
 
-// Invalidación específica
-await prisma.project.create({ data: {...} })
-revalidateTag('projects')
-```
+**Ejemplo:**
+- Query con tag: `revalidateTag('projects')`
+- Invalidación específica después de crear proyecto
+- Solo invalida queries con ese tag
 
 ##  Relacionado
 - [[../../02 - Base de Datos/Modelos Prisma|Modelos de Datos]]

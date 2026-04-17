@@ -16,99 +16,54 @@ La aplicación está diseñada sobre **PostgreSQL**, aprovechando relaciones par
 
 Los tiempos reales de finalización no son quemados manualmente en el ticket (`hardcoded`).
 
-```prisma
-model Subtask {
-  id            String        @id @default(cuid())
-  title         String
-  description   String?
-  status        SubtaskStatus @default(TODO)
-  estimatedTime Int           // En Minutos
-  realTime      Int           @default(0) // Agrupado de WorkSessions
-  order         Int           @default(0) // Para ordenamiento visual
-
-  ticketId      String
-  ticket        Ticket        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-
-  workSessions  WorkSession[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-}
-
-enum SubtaskStatus {
-  TODO
-  DOING
-  DONE
-  BLOCKED
-}
-```
+**Modelo Subtask:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `title`: Título de la subtarea
+  - `description`: Descripción detallada (opcional)
+  - `status`: Estado (TODO, DOING, DONE, BLOCKED)
+  - `estimatedTime`: Tiempo estimado en minutos
+  - `realTime`: Tiempo real acumulado (default 0)
+  - `order`: Orden para visualización (default 0)
+- **Relaciones:**
+  - `ticket`: Ticket padre (onDelete: Cascade)
+  - `workSessions`: Sesiones de trabajo asociadas
+- **Timestamps:** createdAt, updatedAt
 
 **Regla Dorada:** La sumatoria de `realTime` del Ticket, nace de agrupar las iteraciones subyacentes.
 
-```prisma
-model Ticket {
-  id            String    @id @default(cuid())
-  title         String
-  description   String?
-  status        TicketStatus @default(TODO)
-  priority      TicketPriority @default(MEDIUM)
-  estimatedTime Int       // Suma de subtareas
-  realTime      Int       @default(0) // Suma calculada de subtareas
-
-  projectId     String
-  moduleId      String?
-  leadId        String?   // Desarrollador principal
-  creatorId     String   // Quién creó el ticket
-
-  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  module        Module?   @relation(fields: [moduleId], references: [id], onDelete: SetNull)
-  lead          User?     @relation("TicketLead", fields: [leadId], references: [id])
-  creator       User      @relation("TicketCreator", fields: [creatorId], references: [id])
-
-  subtasks      Subtask[]
-  collaborators TicketCollaborator[]
-
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
-
-enum TicketStatus {
-  TODO
-  IN_PROGRESS
-  IN_REVIEW
-  DONE
-  BLOCKED
-  CANCELLED
-}
-
-enum TicketPriority {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
-}
-```
+**Modelo Ticket:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `title`: Título del ticket
+  - `description`: Descripción detallada (opcional)
+  - `status`: Estado (TODO, IN_PROGRESS, IN_REVIEW, DONE, BLOCKED, CANCELLED)
+  - `priority`: Prioridad (LOW, MEDIUM, HIGH, CRITICAL)
+  - `estimatedTime`: Suma de tiempos de subtareas
+  - `realTime`: Suma calculada de subtareas (default 0)
+- **Relaciones:**
+  - `project`: Proyecto padre (onDelete: Cascade)
+  - `module`: Módulo opcional (onDelete: SetNull)
+  - `lead`: Desarrollador principal (opcional)
+  - `creator`: Usuario que creó el ticket
+  - `subtasks`: Array de subtareas
+  - `collaborators`: Array de colaboradores
+- **Timestamps:** createdAt, updatedAt
 
 ### 2. Máquina de Estado del "Punch Clock"
 
 Para evitar fraude, las horas se miden en ventanas cerradas:
 
-```prisma
-model WorkSession {
-  id        String    @id @default(cuid())
-  startTime DateTime  @default(now())
-  endTime   DateTime?
-  duration  Int       @default(0) // Mutado al cerrarse (en minutos)
-
-  userId    String
-  subtaskId String
-
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  subtask   Subtask   @relation(fields: [subtaskId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-```
+**Modelo WorkSession:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `startTime`: Momento de inicio (default now)
+  - `endTime`: Momento de cierre (opcional)
+  - `duration`: Duración en minutos (default 0, mutado al cerrarse)
+- **Relaciones:**
+  - `user`: Usuario que trabajó (onDelete: Cascade)
+  - `subtask`: Subtarea trabajada (onDelete: Cascade)
+- **Timestamps:** createdAt, updatedAt
 
 **Flujo de Time Tracking:**
 
@@ -120,257 +75,353 @@ model WorkSession {
 
 ### 3. Proyectos y Módulos
 
-```prisma
-model Project {
-  id          String    @id @default(cuid())
-  slug        String    @unique
-  name        String
-  description String?
-  budget      Float?    // Presupuesto asignado
-  status      ProjectStatus @default(ACTIVE)
+**Modelo Project:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `slug`: Slug único para URLs
+  - `name`: Nombre del proyecto
+  - `description`: Descripción detallada (opcional)
+  - `budget`: Presupuesto asignado (opcional)
+  - `status`: Estado (PLANNING, ACTIVE, ON_HOLD, COMPLETED, CANCELLED)
+- **Relaciones:**
+  - `client`: Cliente externo (opcional)
+  - `modules`: Array de módulos
+  - `tickets`: Array de tickets
+  - `expenses`: Array de gastos
+- **Timestamps:** createdAt, updatedAt
 
-  clientId    String?   // Cliente externo
-
-  client      User?     @relation("ProjectClient", fields: [clientId], references: [id])
-  modules     Module[]
-  tickets     Ticket[]
-  expenses    Expense[]
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-enum ProjectStatus {
-  PLANNING
-  ACTIVE
-  ON_HOLD
-  COMPLETED
-  CANCELLED
-}
-
-model Module {
-  id          String    @id @default(cuid())
-  name        String
-  description String?
-  order       Int       @default(0)
-
-  projectId   String
-
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  tickets     Ticket[]
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-```
+**Modelo Module:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `name`: Nombre del módulo
+  - `description`: Descripción detallada (opcional)
+  - `order`: Orden para visualización (default 0)
+- **Relaciones:**
+  - `project`: Proyecto padre (onDelete: Cascade)
+  - `tickets`: Array de tickets
+- **Timestamps:** createdAt, updatedAt
 
 ### 4. Usuarios y Roles
 
-```prisma
-model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String
-  role          UserRole  @default(DEVELOPER)
-  image         String?
+**Modelo User:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `email`: Email único
+  - `name`: Nombre del usuario
+  - `role`: Rol (CEO, DEVELOPER, INTERN, EXTERNAL_CLIENT)
+  - `image`: URL de avatar (opcional)
+- **Relaciones:**
+  - `ticketsLead`: Tickets donde es líder
+  - `ticketsCreated`: Tickets que creó
+  - `workSessions`: Sesiones de trabajo
+  - `projectClient`: Proyectos donde es cliente
+- **Timestamps:** createdAt, updatedAt
 
-  // Relaciones
-  ticketsLead   Ticket[]  @relation("TicketLead")
-  ticketsCreated Ticket[] @relation("TicketCreator")
-  workSessions  WorkSession[]
-  projectClient Project[] @relation("ProjectClient")
-
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
-
-enum UserRole {
-  CEO
-  DEVELOPER
-  INTERN
-  EXTERNAL_CLIENT
-}
-```
+**Roles del Sistema:**
+- **CEO**: Acceso total, finanzas, administración
+- **DEVELOPER**: Desarrollo técnico, tickets asignados
+- **INTERN**: Tareas simples, tickets asignados
+- **EXTERNAL_CLIENT**: Solo sus proyectos, lectura limitada
 
 ### 5. Finanzas y Gastos
 
-```prisma
-model Expense {
-  id          String        @id @default(cuid())
-  title       String
-  amount      Float
-  type        ExpenseType
-  description String?
-  date        DateTime      @default(now())
+**Modelo Expense:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `title`: Título del gasto
+  - `amount`: Monto del gasto
+  - `type`: Tipo (FIXED, VARIABLE, ONE_TIME, RECURRING)
+  - `description`: Descripción detallada (opcional)
+  - `date`: Fecha del gasto (default now)
+- **Relaciones:**
+  - `project`: Proyecto asociado (opcional, onDelete: SetNull)
+- **Timestamps:** createdAt, updatedAt
 
-  projectId   String?
-
-  project     Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
-
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-}
-
-enum ExpenseType {
-  FIXED        // Gastos fijos mensuales
-  VARIABLE     // Pagos a colaboradores
-  ONE_TIME     // Gastos únicos
-  RECURRING    // Suscripciones
-}
-```
+**Tipos de Gastos:**
+- **FIXED**: Gastos fijos mensuales (servidores, licencias)
+- **VARIABLE**: Pagos a colaboradores por hora
+- **ONE_TIME**: Gastos únicos (hardware, setup)
+- **RECURRING**: Suscripciones recurrentes (SaaS)
 
 ### 6. Colaboradores en Tickets
 
-```prisma
-model TicketCollaborator {
-  id        String   @id @default(cuid())
-  ticketId  String
-  userId    String
+**Modelo TicketCollaborator:**
+- **Campos principales:**
+  - `id`: Identificador único (CUID)
+  - `ticketId`: ID del ticket
+  - `userId`: ID del usuario
+- **Relaciones:**
+  - `ticket`: Ticket asociado (onDelete: Cascade)
+  - `user`: Usuario colaborador (onDelete: Cascade)
+- **Constraints:** Unique constraint en [ticketId, userId]
+- **Timestamps:** createdAt
 
-  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+### Diagrama de Relaciones de Base de Datos (ER)
 
-  createdAt DateTime @default(now())
+```mermaid
+erDiagram
+    User ||--o{ Ticket : "crea"
+    User ||--o{ Ticket : "lidera"
+    User ||--o{ WorkSession : "registra"
+    User ||--o{ Project : "es cliente de"
+    User ||--o{ TicketCollaborator : "colabora en"
 
-  @@unique([ticketId, userId])
-}
+    Project ||--o{ Module : "contiene"
+    Project ||--o{ Ticket : "tiene"
+    Project ||--o{ Expense : "registra"
+    Project ||o|| User : "cliente"
+
+    Module ||--o{ Ticket : "contiene"
+
+    Ticket ||--o{ Subtask : "desglosa en"
+    Ticket ||--o{ TicketCollaborator : "tiene colaboradores"
+    Ticket }o--|| Module : "pertenece a"
+    Ticket }o--|| Project : "pertenece a"
+    Ticket }o--|| User : "liderado por"
+    Ticket }o--|| User : "creado por"
+
+    Subtask ||--o{ WorkSession : "registra"
+    Subtask }o--|| Ticket : "pertenece a"
+
+    WorkSession }o--|| User : "registrado por"
+    WorkSession }o--|| Subtask : "asociado a"
+
+    TicketCollaborator }o--|| Ticket : "asociado a"
+    TicketCollaborator }o--|| User : "usuario"
+
+    Expense }o--|| Project : "asociado a"
+
+    User {
+        string id PK
+        string email UK
+        string name
+        UserRole role
+        string image
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    Project {
+        string id PK
+        string slug UK
+        string name
+        string description
+        float budget
+        ProjectStatus status
+        string clientId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    Module {
+        string id PK
+        string name
+        string description
+        int order
+        string projectId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    Ticket {
+        string id PK
+        string title
+        string description
+        TicketStatus status
+        TicketPriority priority
+        int estimatedTime
+        int realTime
+        string projectId FK
+        string moduleId FK
+        string leadId FK
+        string creatorId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    Subtask {
+        string id PK
+        string title
+        string description
+        SubtaskStatus status
+        int estimatedTime
+        int realTime
+        int order
+        string ticketId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    WorkSession {
+        string id PK
+        datetime startTime
+        datetime endTime
+        int duration
+        string userId FK
+        string subtaskId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    Expense {
+        string id PK
+        string title
+        float amount
+        ExpenseType type
+        string description
+        datetime date
+        string projectId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    TicketCollaborator {
+        string id PK
+        string ticketId FK
+        string userId FK
+        datetime createdAt
+    }
+
+    enum UserRole {
+        CEO
+        DEVELOPER
+        INTERN
+        EXTERNAL_CLIENT
+    }
+
+    enum ProjectStatus {
+        PLANNING
+        ACTIVE
+        ON_HOLD
+        COMPLETED
+        CANCELLED
+    }
+
+    enum TicketStatus {
+        TODO
+        IN_PROGRESS
+        IN_REVIEW
+        DONE
+        BLOCKED
+        CANCELLED
+    }
+
+    enum TicketPriority {
+        LOW
+        MEDIUM
+        HIGH
+        CRITICAL
+    }
+
+    enum SubtaskStatus {
+        TODO
+        DOING
+        DONE
+        BLOCKED
+    }
+
+    enum ExpenseType {
+        FIXED
+        VARIABLE
+        ONE_TIME
+        RECURRING
+    }
 ```
 
 ##  Queries Avanzadas y Cálculos
 
 ### 1. Calcular Tiempo Real de Ticket
 
-```typescript
-// Sumar realTime de todas las subtareas
-const ticketWithRealTime = await prisma.ticket.findUnique({
-  where: { id: ticketId },
-  include: {
-    subtasks: {
-      select: {
-        realTime: true
-      }
-    }
-  }
-})
+**Lógica:**
+- Buscar ticket por ID con subtareas incluidas
+- Seleccionar solo campo `realTime` de cada subtarea
+- Sumar todos los tiempos reales de subtareas
+- Resultado: Tiempo total real del ticket
 
-const totalRealTime = ticketWithRealTime.subtasks.reduce(
-  (sum, subtask) => sum + subtask.realTime,
-  0
-)
-```
+**Uso:**
+- Comparación con tiempo estimado
+- Cálculo de eficiencia
+- Reportes de productividad
 
 ### 2. Calcular Rentabilidad de Proyecto
 
-```typescript
-// Ingresos - Gastos
-const projectProfitability = await prisma.project.findUnique({
-  where: { id: projectId },
-  include: {
-    expenses: true
-  }
-})
+**Lógica:**
+- Buscar proyecto por ID con gastos incluidos
+- Sumar todos los montos de gastos
+- Calcular profit = budget - totalExpenses
+- Calcular margin = (profit / budget) * 100
 
-const totalExpenses = projectProfitability.expenses.reduce(
-  (sum, expense) => sum + expense.amount,
-  0
-)
-
-const profit = projectProfitability.budget - totalExpenses
-const margin = (profit / projectProfitability.budget) * 100
-```
+**Uso:**
+- Análisis de rentabilidad por proyecto
+- Identificación de proyectos no rentables
+- Toma de decisiones de precios
 
 ### 3. Métricas de Desarrollador
 
-```typescript
-// Horas trabajadas en el último mes
-const developerMetrics = await prisma.workSession.groupBy({
-  by: ['userId'],
-  where: {
-    userId: developerId,
-    startTime: {
-      gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-    }
-  },
-  _sum: {
-    duration: true
-  }
-})
+**Lógica:**
+- Agrupar WorkSessions por userId
+- Filtrar por desarrollador específico
+- Filtrar por último mes (30 días)
+- Sumar duraciones de todas las sesiones
+- Convertir a horas (dividir por 60)
 
-const totalHours = developerMetrics[0]?._sum.duration / 60 || 0
-```
+**Uso:**
+- Reportes de productividad
+- Cálculo de horas trabajadas
+- Identificación de desarrolladores subutilizados o sobrecargados
 
 ### 4. Tickets Estancados
 
-```typescript
-// Tickets sin movimiento por más de 7 días
-const staleTickets = await prisma.ticket.findMany({
-  where: {
-    status: {
-      in: ['TODO', 'IN_PROGRESS']
-    },
-    updatedAt: {
-      lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-    }
-  },
-  include: {
-    project: true,
-    lead: true
-  }
-})
-```
+**Lógica:**
+- Buscar tickets con estado TODO o IN_PROGRESS
+- Filtrar por updatedAt hace más de 7 días
+- Incluir proyecto y líder para contexto
+- Resultado: Tickets que necesitan atención
+
+**Uso:**
+- Alertas de tickets olvidados
+- Identificación de bloqueos
+- Priorización de trabajo pendiente
 
 ### 5. Desviación de Tiempo Estimado
 
-```typescript
-// Tickets donde realTime > estimatedTime * 1.2
-const overBudgetTickets = await prisma.ticket.findMany({
-  where: {
-    realTime: {
-      gt: 0
-    }
-  },
-  include: {
-    subtasks: true
-  }
-}).then(tickets => {
-  return tickets.filter(ticket => {
-    const totalRealTime = ticket.subtasks.reduce(
-      (sum, subtask) => sum + subtask.realTime,
-      0
-    )
-    return totalRealTime > ticket.estimatedTime * 1.2
-  })
-})
-```
+**Lógica:**
+- Buscar tickets con realTime > 0
+- Incluir subtareas
+- Para cada ticket:
+  - Sumar realTime de todas las subtareas
+  - Comparar con estimatedTime * 1.2
+  - Retornar si excede el 20% del estimado
+- Resultado: Tickets que excedieron presupuesto de tiempo
+
+**Uso:**
+- Análisis de precisión de estimaciones
+- Identificación de tickets problemáticos
+- Mejora continua de estimaciones
 
 ##  Índices y Optimización
 
-```prisma
-model Ticket {
-  // ... campos existentes
+**Índices en Ticket:**
+- `projectId`: Búsqueda rápida por proyecto
+- `status`: Filtrado por estado
+- `leadId`: Búsqueda por desarrollador líder
+- `createdAt`: Ordenamiento temporal
 
-  @@index([projectId])
-  @@index([status])
-  @@index([leadId])
-  @@index([createdAt])
-}
+**Índices en WorkSession:**
+- `userId`: Búsqueda rápida por usuario
+- `subtaskId`: Filtrado por subtarea
+- `startTime`: Ordenamiento temporal
 
-model WorkSession {
-  // ... campos existentes
+**Índices en Expense:**
+- `projectId`: Búsqueda por proyecto
+- `type`: Filtrado por tipo de gasto
+- `date`: Ordenamiento temporal y filtrado por período
 
-  @@index([userId])
-  @@index([subtaskId])
-  @@index([startTime])
-}
-
-model Expense {
-  // ... campos existentes
-
-  @@index([projectId])
-  @@index([type])
-  @@index([date])
-}
-```
+**Beneficios de Índices:**
+- Consultas más rápidas
+- Menos carga en base de datos
+- Mejor rendimiento de dashboards
+- Escalabilidad del sistema
 
 ##  Relacionado
 - [[../../01 - Arquitectura/Arquitectura General|Estructura del Sistema]]

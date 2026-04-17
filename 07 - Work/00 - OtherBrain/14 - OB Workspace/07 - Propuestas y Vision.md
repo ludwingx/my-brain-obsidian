@@ -24,164 +24,41 @@ OB-Coins es una moneda virtual interna que se otorga por logros y contribuciones
 - Contribuir a documentación
 - Proactividad en identificar bugs
 
-#### Implementación Técnica
+#### Modelo de Datos
 
-```typescript
-// prisma/schema.prisma
-model User {
-  // ... campos existentes
-  obCoins Int @default(0)
-  achievements Achievement[]
-}
+**Entidades principales:**
 
-model Achievement {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  type        AchievementType
-  title       String
-  description String
-  coins       Int
-  earnedAt    DateTime @default(now())
-}
+- **User**: Extendido con campo `obCoins` (saldo de monedas) y relación con `achievements`
+- **Achievement**: Registra cada logro obtenido (tipo, título, descripción, coins, fecha)
+- **AchievementType**: Enumeración de tipos de logros (Early Bird, Bug Hunter, Mentor, Documentation, Streak, Team Player)
 
-enum AchievementType {
-  EARLY_BIRD       // Completar ticket antes del tiempo estimado
-  BUG_HUNTER       // Resolver bugs críticos
-  MENTOR           // Ayudar a otros desarrolladores
-  DOCUMENTATION     // Contribuir a documentación
-  STREAK           // Mantener racha de productividad
-  TEAM_PLAYER      // Colaborar en múltiples proyectos
-}
-```
+#### Funciones del Backend
 
-#### Server Actions para Gamificación
+**awardAchievement(userId, type, metadata)**
 
-```typescript
-// app/actions/gamification.ts
-'use server'
+- Crea el registro del logro en la base de datos
+- Incrementa el saldo de coins del usuario
+- Ejecuta ambas operaciones en una transacción atómica
 
-import { prisma } from '@/lib/prisma'
+**getUserAchievements(userId)**
 
-export async function awardAchievement(
-  userId: string,
-  type: AchievementType,
-  metadata: Record<string, any>
-) {
-  const achievements = {
-    EARLY_BIRD: {
-      title: 'Early Bird',
-      description: 'Completaste un ticket antes del tiempo estimado',
-      coins: 50,
-    },
-    BUG_HUNTER: {
-      title: 'Bug Hunter',
-      description: 'Resolviste un bug crítico',
-      coins: 100,
-    },
-    MENTOR: {
-      title: 'Mentor',
-      description: 'Ayudaste a otro desarrollador',
-      coins: 75,
-    },
-  }
+- Retorna los últimos 20 logros del usuario
+- Ordenados por fecha descendente
 
-  const achievement = achievements[type]
+**getLeaderboard()**
 
-  await prisma.$transaction(async (tx) => {
-    await tx.achievement.create({
-      data: {
-        userId,
-        type,
-        title: achievement.title,
-        description: achievement.description,
-        coins: achievement.coins,
-      },
-    })
+- Retorna el top 10 de usuarios con más coins
+- Incluye nombre, rol, saldo y cantidad de logros
+- Ordenado por saldo descendente
 
-    await tx.user.update({
-      where: { id: userId },
-      data: {
-        obCoins: {
-          increment: achievement.coins,
-        },
-      },
-    })
-  })
-}
+#### Componente Leaderboard
 
-export async function getUserAchievements(userId: string) {
-  return prisma.achievement.findMany({
-    where: { userId },
-    orderBy: { earnedAt: 'desc' },
-    take: 20,
-  })
-}
-
-export async function getLeaderboard() {
-  return prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      role: true,
-      obCoins: true,
-      _count: {
-        select: {
-          achievements: true,
-        },
-      },
-    },
-    orderBy: { obCoins: 'desc' },
-    take: 10,
-  })
-}
-```
-
-#### UI de Gamificación
-
-```typescript
-// components/gamification/leaderboard.tsx
-'use client'
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Trophy, Medal, Award } from 'lucide-react'
-
-export function Leaderboard() {
-  const { data: leaderboard } = useQuery({
-    queryKey: ['leaderboard'],
-    queryFn: getLeaderboard,
-  })
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Trophy className="h-5 w-5" />
-          Leaderboard OB-Coins
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {leaderboard?.map((user, index) => (
-            <div key={user.id} className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                {index === 0 && <Medal className="h-5 w-5 text-yellow-500" />}
-                {index === 1 && <Medal className="h-5 w-5 text-gray-400" />}
-                {index === 2 && <Medal className="h-5 w-5 text-orange-400" />}
-                <span className="font-medium">{user.name}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Award className="h-4 w-4 text-muted-foreground" />
-                <span className="font-bold">{user.obCoins}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-```
+**Características visuales:**
+- Card con título e ícono de trofeo
+- Lista de usuarios con medallas para top 3 (oro, plata, bronce)
+- Muestra nombre del usuario y saldo de coins
+- Usa React Query para obtener datos del backend
+- Diseño responsivo con espaciado entre elementos
 
 ### 2. Generador Automático de "Releases" y "Novedades"
 

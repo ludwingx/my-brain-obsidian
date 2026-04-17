@@ -9,7 +9,7 @@ tags:
 
 El diseño visual de OB-Workspace se rige por principios de minimalismo, eficiencia y alto contraste, utilizando la suite de herramientas **shadcn/ui** y **Tailwind CSS**.
 
-## 🎨 Sistema de Diseño: B&W Minimalist
+##  Sistema de Diseño: B&W Minimalist
 
 Se ha adoptado una estética de "Blanco y Negro" para reducir la carga cognitiva y dar un aspecto profesional y atemporal.
 
@@ -26,84 +26,61 @@ Todos los componentes se basan en **Radix UI** para accesibilidad:
 
 Uso intensivo de `slate`, `zinc` y `black/white` puro:
 
-```css
-/* app/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+**Variables CSS (:root):**
+- `--background`: 0 0% 100% (blanco puro)
+- `--foreground`: 240 10% 3.9% (casi negro)
+- `--card`: 0 0% 100% (blanco)
+- `--card-foreground`: 240 10% 3.9% (texto oscuro)
+- `--primary`: 240 5.9% 10% (negro principal)
+- `--primary-foreground`: 0 0% 98% (blanco sobre negro)
+- `--secondary`: 240 4.8% 95.9% (gris claro)
+- `--secondary-foreground`: 240 5.9% 10% (texto oscuro)
+- `--muted`: 240 4.8% 95.9% (gris suave)
+- `--muted-foreground`: 240 3.8% 46.1% (texto gris)
+- `--accent`: 240 4.8% 95.9% (gris de acento)
+- `--accent-foreground`: 240 5.9% 10% (texto oscuro)
+- `--destructive`: 0 84.2% 60.2% (rojo para acciones destructivas)
+- `--destructive-foreground`: 0 0% 98% (blanco sobre rojo)
+- `--border`: 240 5.9% 90% (bordes gris claro)
+- `--input`: 240 5.9% 90% (inputs gris claro)
+- `--ring`: 240 5.9% 10% (anillo de foco negro)
+- `--radius`: 0.5rem (radio de borde)
 
-:root {
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 240 5.9% 10%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 240 5.9% 10%;
-  --radius: 0.5rem;
-}
-
-.dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
-}
-```
+**Variables CSS (.dark):**
+- `--background`: 240 10% 3.9% (negro casi puro)
+- `--foreground`: 0 0% 98% (blanco)
+- `--card`: 240 10% 3.9% (negro)
+- `--card-foreground`: 0 0% 98% (blanco)
+- `--primary`: 0 0% 98% (blanco principal)
+- `--primary-foreground`: 240 5.9% 10% (negro sobre blanco)
+- `--secondary`: 240 3.7% 15.9% (gris oscuro)
+- `--secondary-foreground`: 0 0% 98% (blanco)
+- `--muted`: 240 3.7% 15.9% (gris oscuro suave)
+- `--muted-foreground`: 240 5% 64.9% (texto gris claro)
+- `--accent`: 240 3.7% 15.9% (gris oscuro de acento)
+- `--accent-foreground`: 0 0% 98% (blanco)
+- `--destructive`: 0 62.8% 30.6% (rojo oscuro)
+- `--destructive-foreground`: 0 0% 98% (blanco)
+- `--border`: 240 3.7% 15.9% (bordes gris oscuro)
+- `--input`: 240 3.7% 15.9% (inputs gris oscuro)
+- `--ring`: 240 4.9% 83.9% (anillo de foco blanco)
 
 ### Tipografía
 
 Inter (Google Fonts) configurada como variable de CSS para una carga optimizada:
 
-```css
-/* app/globals.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+**Configuración:**
+- Import de Google Fonts con pesos 100-900
+- Variable CSS `--font-sans` con fallback a system-ui
+- Aplicación global en body
+- Uso de `@layer base` para estilos base
 
-@layer base {
-  :root {
-    --font-sans: 'Inter', system-ui, sans-serif;
-  }
-}
+**Estilos Base:**
+- Todos los elementos tienen border-border
+- Body tiene bg-background y text-foreground
+- Font-family usa variable --font-sans
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-sans);
-  }
-}
-```
-
-## 🌗 Gestión de Tema (Light/Dark Mode)
+##  Gestión de Tema (Light/Dark Mode)
 
 A diferencia de implementaciones estándar que solo usan `localStorage`, OB-Workspace utiliza un sistema híbrido que prioriza las **cookies** para evitar el flash de contenido desestilizado (FOUC).
 
@@ -117,271 +94,167 @@ A diferencia de implementaciones estándar que solo usan `localStorage`, OB-Work
 
 #### ThemeProvider
 
-```typescript
-// components/theme-provider.tsx
-'use client'
+**Propósito:** Wrapper para next-themes con configuración personalizada
 
-import * as React from 'react'
-import { ThemeProvider as NextThemesProvider } from 'next-themes'
-import { type ThemeProviderProps } from 'next-themes/dist/types'
+**Implementación:**
+- Client Component con 'use client'
+- Wrapper de NextThemesProvider
+- Props pasadas directamente al provider
+- Configuración externa en layout
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
-}
-```
+**Configuración:**
+- `attribute="class"`: Usa clases CSS para temas
+- `defaultTheme="system"`: Usa tema del sistema por defecto
+- `enableSystem`: Permite tema del sistema
+- `disableTransitionOnChange`: Evita transiciones al cambiar tema
 
 #### Layout con Server-Side Theme
 
-```typescript
-// app/layout.tsx
-import { cookies } from 'next/headers'
-import { ThemeProvider } from '@/components/theme-provider'
+**Propósito:** Detectar tema en servidor y evitar FOUC
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const cookieStore = await cookies()
-  const theme = cookieStore.get('theme')?.value || 'system'
+**Implementación:**
+- Import de cookies de next/headers
+- Lectura de cookie 'theme' o default 'system'
+- Inyección de clase en etiqueta `<html>`
+- Wrapper de ThemeProvider con configuración
 
-  return (
-    <html lang="es" className={theme}>
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  )
-}
-```
+**Beneficios:**
+- Sin flash de contenido desestilizado
+- Tema correcto desde el primer render
+- Persistencia en cookies
+- Soporte para tema del sistema
 
 #### Mode Toggle Component
 
-```typescript
-// components/mode-toggle.tsx
-'use client'
+**Propósito:** Botón para alternar entre temas light/dark
 
-import * as React from 'react'
-import { Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
-import { Button } from '@/components/ui/button'
+**Implementación:**
+- Client Component con 'use client'
+- Hook useTheme de next-themes
+- Estado mounted para evitar hydration mismatch
+- Iconos Sun y Moon de lucide-react
+- Animaciones de rotación y escala
 
-export function ModeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
+**Comportamiento:**
+- No renderiza hasta estar montado
+- Alterna entre light y dark
+- Iconos animados con transiciones
+- Botón ghost para no distraer
+- Accesible con sr-only text
 
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+**Animaciones:**
+- Sun: rotate-0 scale-100 en light, -rotate-90 scale-0 en dark
+- Moon: rotate-90 scale-0 en light, rotate-0 scale-100 en dark
 
-  if (!mounted) {
-    return null
-  }
-
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-    >
-      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
-  )
-}
-```
-
-## 📱 Responsividad y UX
+##  Responsividad y UX
 
 Se aplican reglas estrictas para el manejo de contenido dinámico:
 - **Wrap vs Truncate:** En elementos críticos como botones de selección o diálogos, se prefiere el ajuste de línea (`whitespace-normal`) sobre el truncado para evitar pérdida de información en títulos largos.
 - **Micro-interacciones:** Uso de `transition-all`, hover effects y rotaciones de iconos para dar feedback táctil al usuario sin romper la sobriedad del diseño.
 
-## 📈 Componentes Personalizados
+##  Componentes Personalizados
 
 ### Button Variants
 
-```typescript
-// components/ui/button.tsx
-import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
+**Propósito:** Botón reutilizable con múltiples variantes
 
-const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-  {
-    variants: {
-      variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
-      },
-      size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-9 rounded-md px-3',
-        lg: 'h-11 rounded-md px-8',
-        icon: 'h-10 w-10',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
-    },
-  }
-)
+**Variantes Disponibles:**
+- **default:** bg-primary con hover
+- **destructive:** bg-destructive para acciones peligrosas
+- **outline:** border con hover bg-accent
+- **secondary:** bg-secondary con hover
+- **ghost:** hover bg-accent sin fondo
+- **link:** text-primary con underline
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
+**Tamaños:**
+- **default:** h-10 px-4 py-2
+- **sm:** h-9 px-3
+- **lg:** h-11 px-8
+- **icon:** h-10 w-10 cuadrado
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = 'Button'
-
-export { Button, buttonVariants }
-```
+**Características:**
+- Usa class-variance-authority (cva)
+- Ring offset para focus visible
+- Transiciones suaves
+- Disabled states con opacity
+- Slot pattern para asChild
 
 ### Card Component
 
-```typescript
-// components/ui/card.tsx
-import * as React from 'react'
-import { cn } from '@/lib/utils'
+**Propósito:** Contenedor reutilizable para contenido agrupado
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      'rounded-lg border bg-card text-card-foreground shadow-sm',
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = 'Card'
+**Subcomponentes:**
+- **Card:** Contenedor principal con border y shadow
+- **CardHeader:** Header con flex-col y espacio vertical
+- **CardTitle:** Título con text-2xl font-semibold
+- **CardContent:** Contenido con padding sin top
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('flex flex-col space-y-1.5 p-6', className)}
-    {...props}
-  />
-))
-CardHeader.displayName = 'CardHeader'
+**Estilos:**
+- Border: border
+- Background: bg-card
+- Foreground: text-card-foreground
+- Shadow: shadow-sm
+- Radius: rounded-lg
+- Padding: p-6 para header y content
 
-const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn('text-2xl font-semibold leading-none tracking-tight', className)}
-    {...props}
-  />
-))
-CardTitle.displayName = 'CardTitle'
-
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
-))
-CardContent.displayName = 'CardContent'
-
-export { Card, CardHeader, CardTitle, CardContent }
-```
-
-## 📈 Patrones de Diseño
+##  Patrones de Diseño
 
 ### 1. Atomic Design
 
 Estructura de componentes en capas:
 
-```
-components/
-  ui/              # Átomos (Button, Input, Card)
-  layout/          # Moléculas (Header, Sidebar, Footer)
-  features/        # Organismos (KanbanBoard, TicketList)
-  templates/       # Templates (ProjectTemplate, DashboardTemplate)
-```
+**components/ui/:**
+- Átomos (Button, Input, Card)
+- Componentes base reutilizables
+- Sin lógica de negocio
+
+**components/layout/:**
+- Moléculas (Header, Sidebar, Footer)
+- Combinación de átomos
+- Estructura de layout
+
+**components/features/:**
+- Organismos (KanbanBoard, TicketList)
+- Componentes con lógica de negocio
+- Combinación de moléculas
+
+**components/templates/:**
+- Templates (ProjectTemplate, DashboardTemplate)
+- Estructuras completas de página
+- Combinación de organismos
 
 ### 2. Compound Components
 
 Componentes que trabajan juntos:
 
-```tsx
-// Ejemplo: Tabs
-<Tabs defaultValue="overview">
-  <TabsList>
-    <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="details">Details</TabsTrigger>
-  </TabsList>
-  <TabsContent value="overview">
-    {/* ... */}
-  </TabsContent>
-  <TabsContent value="details">
-    {/* ... */}
-  </TabsContent>
-</Tabs>
-```
+**Ejemplo: Tabs**
+- **TabsList:** Contenedor de tabs
+- **TabsTrigger:** Tab individual clickable
+- **TabsContent:** Contenido de cada tab
+- Comparten estado interno
+- Accesible con ARIA
+
+**Beneficios:**
+- API declarativa
+- Estado compartido implícito
+- Composición flexible
+- Accesibilidad integrada
 
 ### 3. Render Props Pattern
 
 Componentes que aceptan funciones como children para máxima flexibilidad:
 
-```tsx
-// components/ui/data-table.tsx
-function DataTable<T>({
-  data,
-  columns,
-  renderRow,
-}: DataTableProps<T>) {
-  return (
-    <table>
-      {data.map((item, index) => (
-        <tr key={index}>
-          {columns.map((column) => (
-            <td key={column.key}>
-              {renderRow ? renderRow(item, column) : item[column.key]}
-            </td>
-          ))}
-        </tr>
-      ))}
-    </table>
-  )
-}
-```
+**Ejemplo: DataTable**
+- Props: data, columns, renderRow
+- renderRow es función opcional
+- Permite personalizar renderizado
+- Máxima flexibilidad de uso
 
-## 📈 Relacionado
+**Uso:**
+- Si renderRow existe, usa función personalizada
+- Si no, usa valor directo de item[column.key]
+- Permite inyección de lógica de renderizado
+
+##  Relacionado
 - [[Layouts y Navegacion|Ver Estructura de Navegación]]
 - [[../01 - Arquitectura/Arquitectura General|Arquitectura del Sistema]]

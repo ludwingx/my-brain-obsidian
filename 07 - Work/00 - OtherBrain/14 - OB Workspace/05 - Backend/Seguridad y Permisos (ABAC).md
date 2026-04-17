@@ -16,158 +16,73 @@ La seguridad en **OB Workspace** no se limita a "estás logueado o no". Se basa 
 
 Ubicada en `lib/permissions.ts`, esta función evalúa la terna `(usuario, acción, recurso)`.
 
-```typescript
-// lib/permissions.ts
-import { UserRole } from '@prisma/client'
+**Tipos definidos:**
+- `Action`: create, read, update, delete, admin
+- `Resource`: ticket, project, expense, user, settings
+- `PermissionContext`: Interface con user, action, resource, resourceId, additionalContext
 
-export type Action = 'create' | 'read' | 'update' | 'delete' | 'admin'
-export type Resource = 'ticket' | 'project' | 'expense' | 'user' | 'settings'
+**Lógica por rol:**
 
-export interface PermissionContext {
-  user: User
-  action: Action
-  resource: Resource
-  resourceId?: string
-  additionalContext?: Record<string, any>
-}
+**CEO**
+- Acceso total a todos los recursos y acciones
+- Bypass de restricciones contextuales
 
-export async function can({
-  user,
-  action,
-  resource,
-  resourceId,
-  additionalContext,
-}: PermissionContext): Promise<boolean> {
-  // CEO tiene bypass en casi todo
-  if (user.role === 'CEO') {
-    return canCEO(action, resource)
-  }
+**EXTERNAL_CLIENT**
+- Tickets: read (solo sus proyectos), create
+- Projects: read (solo sus proyectos)
+- Sin acceso a expenses, users, settings
 
-  // External Client tiene acceso limitado
-  if (user.role === 'EXTERNAL_CLIENT') {
-    return canClient(user, action, resource, resourceId, additionalContext)
-  }
+**DEVELOPER**
+- Tickets: read, create (todos), update/delete (solo donde es lead o colaborador)
+- Projects: read (todos)
 
-  // Developer tiene acceso basado en asignación
-  if (user.role === 'DEVELOPER') {
-    return canDeveloper(user, action, resource, resourceId, additionalContext)
-  }
+**INTERN**
+- Tickets: read (todos), update (solo donde es colaborador)
+- Sin acceso a delete, projects, expenses, users, settings
 
-  // Intern tiene acceso muy limitado
-  if (user.role === 'INTERN') {
-    return canIntern(user, action, resource, resourceId, additionalContext)
-  }
+### Diagrama de Flujo de Permisos (ABAC)
 
-  return false
-}
-
-function canCEO(action: Action, resource: Resource): boolean {
-  const ceoPermissions: Record<Resource, Action[]> = {
-    ticket: ['create', 'read', 'update', 'delete', 'admin'],
-    project: ['create', 'read', 'update', 'delete', 'admin'],
-    expense: ['create', 'read', 'update', 'delete', 'admin'],
-    user: ['create', 'read', 'update', 'delete', 'admin'],
-    settings: ['create', 'read', 'update', 'delete', 'admin'],
-  }
-
-  return ceoPermissions[resource]?.includes(action) ?? false
-}
-
-async function canClient(
-  user: User,
-  action: Action,
-  resource: Resource,
-  resourceId?: string,
-  additionalContext?: Record<string, any>
-): Promise<boolean> {
-  // Clientes solo pueden leer y crear tickets en sus proyectos
-  if (resource === 'ticket') {
-    if (action === 'read') {
-      if (!resourceId) return true
-      const ticket = await prisma.ticket.findUnique({
-        where: { id: resourceId },
-        select: { projectId: true, creatorId: true },
-      })
-      return ticket?.projectId === user.projectId || ticket?.creatorId === user.id
-    }
-    if (action === 'create') {
-      return true
-    }
-    return false
-  }
-
-  if (resource === 'project') {
-    if (action === 'read') {
-      if (!resourceId) return true
-      const project = await prisma.project.findUnique({
-        where: { id: resourceId },
-        select: { clientId: true },
-      })
-      return project?.clientId === user.id
-    }
-    return false
-  }
-
-  return false
-}
-
-async function canDeveloper(
-  user: User,
-  action: Action,
-  resource: Resource,
-  resourceId?: string,
-  additionalContext?: Record<string, any>
-): Promise<boolean> {
-  if (resource === 'ticket') {
-    if (action === 'read' || action === 'create') return true
-
-    if (action === 'update' || action === 'delete') {
-      if (!resourceId) return false
-      const ticket = await prisma.ticket.findUnique({
-        where: { id: resourceId },
-        select: { leadId: true, collaborators: { select: { userId: true } } },
-      })
-      if (!ticket) return false
-
-      const isLead = ticket.leadId === user.id
-      const isCollaborator = ticket.collaborators.some(c => c.userId === user.id)
-      return isLead || isCollaborator
-    }
-  }
-
-  if (resource === 'project') {
-    if (action === 'read') return true
-    return false
-  }
-
-  return false
-}
-
-async function canIntern(
-  user: User,
-  action: Action,
-  resource: Resource,
-  resourceId?: string,
-  additionalContext?: Record<string, any>
-): Promise<boolean> {
-  // Interns solo pueden leer y actualizar tickets asignados
-  if (resource === 'ticket') {
-    if (action === 'read') return true
-
-    if (action === 'update') {
-      if (!resourceId) return false
-      const ticket = await prisma.ticket.findUnique({
-        where: { id: resourceId },
-        select: { collaborators: { select: { userId: true } } },
-      })
-      if (!ticket) return false
-
-      return ticket.collaborators.some(c => c.userId === user.id)
-    }
-  }
-
-  return false
-}
+```mermaid
+flowchart TD
+    A[Usuario intenta acción] --> B{Middleware<br/>Verifica JWT}
+    B -->|No token| C[Redirigir a /login]
+    B -->|Token válido| D{Ruta sensible?}
+    D -->|Sí - Finances/Admin| E{Rol = CEO?}
+    E -->|No| F[Error 403<br/>Redirigir a /dashboard]
+    E -->|Sí| G[Permitir acceso]
+    D -->|No| G
+    G --> H[Server Action<br/>Verifica permisos]
+    H --> I[Función can<br/>user, action, resource]
+    I --> J{Rol = CEO?}
+    J -->|Sí| K[Permitir acción]
+    J -->|No| L{Rol = CLIENT?}
+    L -->|Sí| M{Recurso = Ticket/Project?}
+    M -->|Sí| N{Proyecto del cliente?}
+    N -->|Sí| O[Permitir lectura/creación]
+    N -->|No| P[Denegar acceso]
+    M -->|No| P
+    L -->|No| Q{Rol = DEVELOPER?}
+    Q -->|Sí| R{Es lead o colaborador?}
+    R -->|Sí| S[Permitir acción]
+    R -->|No| T[Denegar acceso]
+    Q -->|No| U{Rol = INTERN?}
+    U -->|Sí| V{Es colaborador?}
+    V -->|Sí| W[Permitir lectura/actualización]
+    V -->|No| X[Denegar acceso]
+    U -->|No| X
+    K --> Y[Rate Limiting]
+    O --> Y
+    S --> Y
+    W --> Y
+    Y --> Z{Límite excedido?}
+    Z -->|Sí| AA[Error 429<br/>Demasiadas solicitudes]
+    Z -->|No| AB[Validación de entrada]
+    AB --> AC{Datos válidos?}
+    AC -->|No| AD[Error 400<br/>Datos inválidos]
+    AC -->|Sí| AE[Auditoría de acción]
+    AE --> AF[Ejecutar mutación]
+    AF --> AG[Revalidar rutas]
+    AG --> AH[Retornar respuesta]
 ```
 
 ### Protección en múltiples capas
@@ -176,202 +91,65 @@ async function canIntern(
 
 Protege las rutas de la aplicación `/dashboard/*` y `/portal/*` verificando la sesión JWT:
 
-```typescript
-// middleware.ts
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getToken } from 'next-auth/jwt'
+**Funcionalidades del Middleware:**
 
-export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request })
-  const { pathname } = request.nextUrl
+**Rutas públicas (/login, /register)**
+- Si el usuario tiene token, redirige a /dashboard
+- Si no tiene token, permite acceso
 
-  // Rutas públicas
-  if (pathname.startsWith('/login') || pathname.startsWith('/register')) {
-    if (token) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-    return NextResponse.next()
-  }
+**Rutas protegidas (/dashboard/*, /portal/*)**
+- Verifica existencia de token JWT
+- Si no hay token, redirige a /login
 
-  // Rutas protegidas
-  if (pathname.startsWith('/dashboard') || pathname.startsWith('/portal')) {
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+**Rutas sensibles (/dashboard/finances, /dashboard/admin)**
+- Verifica que el rol del usuario sea CEO
+- Si no es CEO, redirige a /dashboard con error 403
 
-    // Verificar rol para rutas específicas
-    if (pathname.startsWith('/dashboard/finances') || pathname.startsWith('/dashboard/admin')) {
-      const user = await prisma.user.findUnique({
-        where: { email: token.email as string },
-        select: { role: true },
-      })
-
-      if (user?.role !== 'CEO') {
-        return NextResponse.redirect(new URL('/dashboard', request.url))
-      }
-    }
-  }
-
-  return NextResponse.next()
-}
-
-export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-}
-```
+**Configuración del matcher**
+- Aplica a todas las rutas excepto api, _next/static, _next/image, favicon.ico
 
 #### 2. Server Actions (Defensa Final)
 
 Cada acción en `app/actions/` vuelve a llamar a la lógica de `permissions.ts` antes de ejecutar cualquier comando de Prisma. Esto evita que un usuario manipule IDs de tickets de otros proyectos vía consola o herramientas externas:
 
-```typescript
-// app/actions/tickets.ts
-'use server'
+**updateTicketStatus(ticketId, status)**
+- Obtiene el usuario actual
+- Verifica permisos con can(user, 'update', 'ticket', ticketId)
+- Valida que el ticket existe
+- Actualiza el estado del ticket
+- Revalida rutas /dashboard/projects y /dashboard/tickets
 
-import { prisma } from '@/lib/prisma'
-import { can } from '@/lib/permissions'
-import { revalidatePath } from 'next/cache'
+**deleteTicket(ticketId)**
+- Obtiene el usuario actual
+- Verifica permisos con can(user, 'delete', 'ticket', ticketId)
+- Elimina el ticket de la base de datos
+- Revalida rutas relevantes
 
-export async function updateTicketStatus(
-  ticketId: string,
-  status: string
-) {
-  const user = await getCurrentUser()
-
-  // Verificar permisos
-  const hasPermission = await can({
-    user,
-    action: 'update',
-    resource: 'ticket',
-    resourceId: ticketId,
-  })
-
-  if (!hasPermission) {
-    throw new Error('Unauthorized: You do not have permission to update this ticket')
-  }
-
-  // Verificar que el ticket existe
-  const ticket = await prisma.ticket.findUnique({
-    where: { id: ticketId },
-  })
-
-  if (!ticket) {
-    throw new Error('Ticket not found')
-  }
-
-  // Actualizar ticket
-  const updated = await prisma.ticket.update({
-    where: { id: ticketId },
-    data: { status },
-  })
-
-  revalidatePath('/dashboard/projects')
-  revalidatePath('/dashboard/tickets')
-
-  return updated
-}
-
-export async function deleteTicket(ticketId: string) {
-  const user = await getCurrentUser()
-
-  // Verificar permisos de eliminación
-  const hasPermission = await can({
-    user,
-    action: 'delete',
-    resource: 'ticket',
-    resourceId: ticketId,
-  })
-
-  if (!hasPermission) {
-    throw new Error('Unauthorized: You do not have permission to delete this ticket')
-  }
-
-  await prisma.ticket.delete({
-    where: { id: ticketId },
-  })
-
-  revalidatePath('/dashboard/projects')
-  revalidatePath('/dashboard/tickets')
-}
-
-export async function createTicket(data: CreateTicketInput) {
-  const user = await getCurrentUser()
-
-  // Verificar permisos de creación
-  const hasPermission = await can({
-    user,
-    action: 'create',
-    resource: 'ticket',
-  })
-
-  if (!hasPermission) {
-    throw new Error('Unauthorized: You do not have permission to create tickets')
-  }
-
-  const ticket = await prisma.ticket.create({
-    data: {
-      ...data,
-      creatorId: user.id,
-    },
-  })
-
-  revalidatePath('/dashboard/projects')
-  revalidatePath('/dashboard/tickets')
-
-  return ticket
-}
-```
+**createTicket(data)**
+- Obtiene el usuario actual
+- Verifica permisos con can(user, 'create', 'ticket')
+- Crea el ticket con creatorId del usuario
+- Revalida rutas relevantes
 
 #### 3. Database-Level Filtering
 
 Filtrado de datos por usuario en queries de Prisma:
 
-```typescript
-// app/actions/projects.ts
-export async function getProjects(user: User) {
-  // CEO ve todos los proyectos
-  if (user.role === 'CEO') {
-    return prisma.project.findMany({
-      include: {
-        tickets: true,
-        expenses: true,
-      },
-    })
-  }
+**getProjects(user)**
 
-  // Clientes solo ven sus proyectos
-  if (user.role === 'EXTERNAL_CLIENT') {
-    return prisma.project.findMany({
-      where: { clientId: user.id },
-      include: {
-        tickets: true,
-      },
-    })
-  }
+**CEO**
+- Retorna todos los proyectos
+- Incluye tickets y expenses
 
-  // Developers e Interns ven proyectos donde son colaboradores
-  const tickets = await prisma.ticket.findMany({
-    where: {
-      OR: [
-        { leadId: user.id },
-        { collaborators: { some: { userId: user.id } } },
-      ],
-    },
-    select: { projectId: true },
-    distinct: ['projectId'],
-  })
+**EXTERNAL_CLIENT**
+- Filtra por clientId = user.id
+- Incluye tickets (sin expenses)
 
-  const projectIds = tickets.map(t => t.projectId)
-
-  return prisma.project.findMany({
-    where: { id: { in: projectIds } },
-    include: {
-      tickets: true,
-    },
-  })
-}
-```
+**DEVELOPER / INTERN**
+- Busca tickets donde es lead o colaborador
+- Extrae projectIds únicos
+- Retorna proyectos donde tiene tickets asignados
+- Incluye tickets
 
 ### Matriz de Responsabilidades
 
@@ -386,157 +164,76 @@ export async function getProjects(user: User) {
 
 #### Caso 1: Prevención de Manipulación de IDs
 
-```typescript
-// Intento malicioso: Usuario intenta eliminar ticket de otro proyecto
-await deleteTicket('other-project-ticket-id')
+**Escenario:** Usuario intenta eliminar ticket de otro proyecto
 
-// Resultado: Error "Unauthorized" porque can() verifica que el usuario
-// no es lead ni colaborador de ese ticket
-```
+**Resultado:** Error "Unauthorized"
+
+**Causa:** La función can() verifica que el usuario no es lead ni colaborador de ese ticket específico
 
 #### Caso 2: Filtro de Datos por Rol
 
-```typescript
-// CEO ve todos los proyectos
-const ceoProjects = await getProjects(ceoUser) // Retorna todos los proyectos
+**CEO:** Retorna todos los proyectos
 
-// Client solo ve sus proyectos
-const clientProjects = await getProjects(clientUser) // Retorna solo sus proyectos
+**Client:** Retorna solo sus proyectos asignados
 
-// Developer ve proyectos donde trabaja
-const devProjects = await getProjects(devUser) // Retorna proyectos asignados
-```
+**Developer:** Retorna proyectos donde tiene tickets asignados como lead o colaborador
 
 #### Caso 3: Protección de Rutas Sensibles
 
-```typescript
-// Intento de acceso a /dashboard/finances sin ser CEO
-// Middleware redirige a /dashboard con error 403
+**Escenario:** Intento de acceso a /dashboard/finances o /dashboard/admin sin ser CEO
 
-// Intento de acceso a /dashboard/admin sin ser CEO
-// Middleware redirige a /dashboard con error 403
-```
+**Resultado:** Middleware redirige a /dashboard con error 403
+
+**Causa:** Verificación de rol en middleware falla
 
 ### Patrones de Seguridad Avanzados
 
 #### 1. Rate Limiting por Acción
 
-```typescript
-// lib/rate-limit.ts
-import { Ratelimit } from '@upstash/ratelimit'
-import { Redis } from '@upstash/redis'
+**Configuración:**
+- Redis como backend de almacenamiento
+- Sliding window: 10 solicitudes por minuto
+- Clave compuesta: userId:action
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(10, '1 m'),
-})
+**checkRateLimit(userId, action)**
+- Retorna boolean indicando si puede proceder
+- Lanza error si excede el límite
 
-export async function checkRateLimit(
-  userId: string,
-  action: string
-): Promise<boolean> {
-  const { success } = await ratelimit.limit(`${userId}:${action}`)
-  return success
-}
-
-// Uso en Server Actions
-export async function createTicket(data: CreateTicketInput) {
-  const user = await getCurrentUser()
-
-  const canProceed = await checkRateLimit(user.id, 'create_ticket')
-  if (!canProceed) {
-    throw new Error('Rate limit exceeded')
-  }
-
-  // ... resto de la lógica
-}
-```
+**Integración:**
+- Se llama al inicio de cada Server Action
+- Previene abuso de endpoints sensibles
 
 #### 2. Auditoría de Acciones
 
-```typescript
-// lib/audit.ts
-export async function logAction({
-  userId,
-  action,
-  resource,
-  resourceId,
-  metadata,
-}: AuditLogInput) {
-  await prisma.auditLog.create({
-    data: {
-      userId,
-      action,
-      resource,
-      resourceId,
-      metadata,
-      timestamp: new Date(),
-      ipAddress: getClientIP(),
-    },
-  })
-}
+**logAction({ userId, action, resource, resourceId, metadata })**
+- Crea registro en tabla auditLog
+- Campos: userId, action, resource, resourceId, metadata, timestamp, ipAddress
 
-// Uso en Server Actions
-export async function deleteTicket(ticketId: string) {
-  const user = await getCurrentUser()
+**Integración:**
+- Se llama antes de ejecutar acciones sensibles (delete, update)
+- Permite auditoría y forensics
 
-  await logAction({
-    userId: user.id,
-    action: 'delete',
-    resource: 'ticket',
-    resourceId: ticketId,
-    metadata: { role: user.role },
-  })
-
-  // ... resto de la lógica
-}
-```
+**Metadata:**
+- Información contextual (rol, estado previo, etc.)
 
 #### 3. Validación de Entrada
 
-```typescript
-// lib/validation.ts
-import { z } from 'zod'
+**createTicketSchema (Zod)**
+- title: string, 1-200 caracteres
+- description: string (opcional)
+- priority: enum (LOW, MEDIUM, HIGH, CRITICAL)
+- projectId: UUID válido
+- moduleId: UUID válido (opcional)
 
-export const createTicketSchema = z.object({
-  title: z.string().min(1).max(200),
-  description: z.string().optional(),
-  priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']),
-  projectId: z.string().uuid(),
-  moduleId: z.string().uuid().optional(),
-})
+**Flujo de validación:**
+1. Schema.parse(data) valida y tipa los datos
+2. Lanza error si la validación falla
+3. Retorna datos tipados para usar en Prisma
 
-export type CreateTicketInput = z.infer<typeof createTicketSchema>
-
-// Uso en Server Actions
-export async function createTicket(data: CreateTicketInput) {
-  // Validar entrada
-  const validatedData = createTicketSchema.parse(data)
-
-  const user = await getCurrentUser()
-
-  // Verificar permisos
-  const hasPermission = await can({
-    user,
-    action: 'create',
-    resource: 'ticket',
-  })
-
-  if (!hasPermission) {
-    throw new Error('Unauthorized')
-  }
-
-  // Crear ticket con datos validados
-  const ticket = await prisma.ticket.create({
-    data: {
-      ...validatedData,
-      creatorId: user.id,
-    },
-  })
-
-  return ticket
-}
-```
+**Integración:**
+- Se ejecuta antes de verificar permisos
+- Previene inyección de datos maliciosos
+- Garantiza integridad de datos
 
 ##  Relacionado
 - [[../../04 - Frontend y Autenticacion/Roles RBAC|Definición de Roles]]
