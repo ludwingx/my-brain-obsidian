@@ -1,6 +1,6 @@
 # 🗂️ Estructura del Proyecto
 
-> [[Market GS]] > Estructura del Proyecto
+> [[Market-GS]] > Estructura del Proyecto
 
 ---
 

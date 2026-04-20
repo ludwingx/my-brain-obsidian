@@ -23,8 +23,8 @@ Ubicada en `lib/permissions.ts`, esta función evalúa la terna `(usuario, acci�
 
 **Lógica por rol:**
 
-**CEO**
-- Acceso total a todos los recursos y acciones
+**CEO y ADMIN_DEV**
+- Acceso total a todos los recursos y acciones (El CEO a nivel compañía, ADMIN_DEV a nivel técnico/operativo y gestión de personal)
 - Bypass de restricciones contextuales
 
 **EXTERNAL_CLIENT**
@@ -47,13 +47,13 @@ flowchart TD
     A[Usuario intenta acción] --> B{Middleware<br/>Verifica JWT}
     B -->|No token| C[Redirigir a /login]
     B -->|Token válido| D{Ruta sensible?}
-    D -->|Sí - Finances/Admin| E{Rol = CEO?}
+    D -->|Sí - Finances/Admin| E{Rol = CEO o ADMIN_DEV?}
     E -->|No| F[Error 403<br/>Redirigir a /dashboard]
     E -->|Sí| G[Permitir acceso]
     D -->|No| G
     G --> H[Server Action<br/>Verifica permisos]
     H --> I[Función can<br/>user, action, resource]
-    I --> J{Rol = CEO?}
+    I --> J{Rol = CEO o ADMIN_DEV?}
     J -->|Sí| K[Permitir acción]
     J -->|No| L{Rol = CLIENT?}
     L -->|Sí| M{Recurso = Ticket/Project?}
@@ -137,7 +137,7 @@ Filtrado de datos por usuario en queries de Prisma:
 
 **getProjects(user)**
 
-**CEO**
+**CEO / ADMIN_DEV**
 - Retorna todos los proyectos
 - Incluye tickets y expenses
 
@@ -153,12 +153,13 @@ Filtrado de datos por usuario en queries de Prisma:
 
 ### Matriz de Responsabilidades
 
-| Recurso | CEO | Dev | Intern | Client |
+| Recurso | CEO/ADMIN_DEV | Dev | Intern | Client |
 | :--- | :---: | :---: | :---: | :---: |
-| **Finanzas (Gastos)** |  |  |  |  |
-| **Configuración Global** |  |  |  |  |
-| **Crear Tickets** |  |  |  |  |
-| **Mover Kanban** |  | (Propios) | (Propios) |  |
+| **Gestión de Usuarios (CRUD)** | ✅ | ❌ | ❌ | ❌ |
+| **Finanzas (Gastos)** | ✅ (Solo CEO) | ❌ | ❌ | ❌ |
+| **Configuración Global** | ✅ | ❌ | ❌ | ❌ |
+| **Crear Tickets** | ✅ | ✅ | ❌ | ✅ |
+| **Mover Kanban** | ✅ | ✅ (Propios) | ✅ (Propios) | ❌ |
 
 ### Casos de Uso de Seguridad
 

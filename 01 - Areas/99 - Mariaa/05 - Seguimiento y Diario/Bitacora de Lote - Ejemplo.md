@@ -46,5 +46,5 @@ Este archivo sirve como plantilla para registrar el progreso de cada planta o gr
 
 ## ðŸ”— NavegaciÃ³n
 - [[../00 - GuÃ­a Maestra|Volver a la GuÃ­a Maestra]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

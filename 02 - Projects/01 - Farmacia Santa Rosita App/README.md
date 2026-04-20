@@ -40,4 +40,4 @@ Digitalizar la gestión interna de Farmacia Santa Rosita, eliminando el control 
 ## 🔗 Relacionado
 - [[../02 - Sabores Bolivianísimos App/README|Sabores Bolivianísimos]] — otro proyecto con backend similar
 - [[../06 - FundaMania ERP/README|FundaMania ERP]] — misma arquitectura Prisma + ShadCN
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

@@ -39,9 +39,9 @@ El THC se descarboxila y la clorofila se degrada (el sabor a "pasto" desaparece)
 
 ---
 ## 🔽 Navegación
-- [[00 - Guía Maestra|Volver a la Guía Maestra]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a la Guía Maestra]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
 
 
 ![[Pasted image 20260415112229.png]]

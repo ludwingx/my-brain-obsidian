@@ -37,10 +37,10 @@ La marihuana es resistente, pero un ambiente fuera de control invita a los probl
 
 ## Relacionado
 - [[../01 - Ciclo de Vida/Ciclo de Vida|Ciclo de Vida]]
-- [[../00 - Guía Maestra|Guía Maestra]]
+- [[LaMari|Guía Maestra]]
 
 ---
 ## Navegación
-- [[00 - Guía Maestra|Volver a la Guía Maestra]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a la Guía Maestra]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

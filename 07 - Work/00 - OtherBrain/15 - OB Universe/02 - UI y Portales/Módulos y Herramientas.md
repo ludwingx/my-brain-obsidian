@@ -23,4 +23,4 @@ Para una fácil interconexión entre la vista macro (el Dashboard de OB Universe
 3. **Contexto Organizacional ("Team Switcher")**: Permite al administrador cambiar de organización (Ej: De la 'Internal Suite' de OtherBrain a posibles subsidiarias o áreas estancas).
 
 ---
-🔙 **Principal:** [[OB Universe]]
+🔙 **Principal:** [[OB-Universe]]

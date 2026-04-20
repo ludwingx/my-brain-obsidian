@@ -11,4 +11,4 @@ Proyectos desarrollados durante la formación universitaria y laboratorios técn
 
 ---
 ## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

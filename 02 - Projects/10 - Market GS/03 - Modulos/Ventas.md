@@ -1,6 +1,6 @@
 # 🛒 Ventas
 
-> [[Market GS]] > Ventas
+> [[Market-GS]] > Ventas
 
 ---
 

@@ -28,4 +28,4 @@ Conectar a las personas con la cultura culinaria boliviana a través de una app 
 ## 🔗 Relacionado
 - [[../04 - LaMovidaBO/README|LaMovidaBO]] — otro proyecto de cultura boliviana
 - [[../../04 - Resources/00 - Prompts/prompt maestro para generar videos|Prompt Maestro Videos]] — recursos de contenido
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

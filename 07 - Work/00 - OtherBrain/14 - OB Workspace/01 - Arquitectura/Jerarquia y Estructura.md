@@ -72,4 +72,4 @@ graph TD
 4. **¿Son los pasos técnicos para el programador?** -> La IA generará las **Subtareas**.
 
 ---
-[[App Web OB-Workspace|Volver al Resumen]]
+[[OB-Workspace|Volver al Resumen]]

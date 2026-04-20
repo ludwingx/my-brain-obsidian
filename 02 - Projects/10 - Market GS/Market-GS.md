@@ -7,6 +7,7 @@ tags:
   - Project
   - erp
   - inventario
+  - MarketGS
 ---
 # Market GS
 
@@ -23,7 +24,30 @@ Stack: Next.js 16 + Prisma + PostgreSQL
 
 ---
 
-## 📋 Secciones de la Documentación
+## � Integración con OB Workspace
+
+Market GS está integrado como módulo del núcleo OB Workspace, compartiendo:
+
+- **Base de Datos:** Misma instancia PostgreSQL con Prisma
+- **Autenticación:** Sistema de usuarios compartido
+- **UI/UX:** Componentes shadcn/ui y diseño consistente
+- **Arquitectura:** Mismo patrón de Server Actions y rutas
+- **Time Tracking:** Operaciones de inventario pueden ser rastreadas
+- **Reporting:** Datos de ventas/compras integrados en analytics de OB Workspace
+
+### Mapeo de Entidades
+
+| Market GS | OB Workspace | Propósito |
+|-----------|--------------|-----------|
+| Productos | Projects | Productos como proyectos gestionados |
+| Ventas | Expenses | Ventas registradas como ingresos |
+| Compras | Expenses | Compras como gastos de proyecto |
+| Stock | Tickets | Control de inventario como tickets |
+| Proveedores | Users | Proveedores como usuarios externos |
+
+---
+
+## �📋 Secciones de la Documentación
 
 - 00 - Resumen
   - [[02 - Projects/10 - Market GS/00 - Resumen/Requerimientos|📝 Requerimientos del Cliente]]

@@ -24,4 +24,4 @@ Crear una experiencia híbrida moderna en cafetería: digitalizar la visita del 
 
 ## 🔗 Relacionado
 - [[Levantamiento negocio]] — Requerimientos detallados y visión del negocio
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

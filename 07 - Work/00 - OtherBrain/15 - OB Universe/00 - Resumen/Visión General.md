@@ -19,4 +19,4 @@ Actualmente, el proyecto funge como un cascarón (shell) organizativo que previs
 3. **Página de Entrada (Landing Page)**: Una experiencia visual inmersiva para los miembros de OtherBrain, con ventanas tipo retro (Core Monitor, Neural Feed) que reflejan procesos "cyberpunk" y un botón principal de "Acceso Interno" a las herramientas.
 
 ---
-🔙 **Principal:** [[OB Universe]]
+🔙 **Principal:** [[OB-Universe]]

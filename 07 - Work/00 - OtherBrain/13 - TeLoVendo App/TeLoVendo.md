@@ -1,8 +1,6 @@
 ---
 tags:
   - TeLoVendo
-  - OtherBrain
-  - Index
 ---
 # 🛒 TeLoVendo App - Hub Central
 
@@ -28,11 +26,6 @@ tags:
 - 07 - Backlog y Visión
   - [[07 - Work/00 - OtherBrain/13 - TeLoVendo App/07 - Notas Rapidas/Lista TODO y Tareas|Ideas de Negocio y Resoluciones de Bug Fixes Pendientes]]
   - [[07 - Work/00 - OtherBrain/13 - TeLoVendo App/07 - Notas Rapidas/Ideas a Futuro y Monetizacion|Sistema de Monetización: Bot-Coins, Tickets y Swarm Campaigns]]
-
-## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
 
 ## 📌 Estado Actual
 🔨 En Refinamiento de Características (Next 16)

@@ -47,10 +47,10 @@ Doblar las ramas suavemente con amarras para que toda la planta reciba luz por i
 
 ## Relacionado
 - [[../01 - Ciclo de Vida/Ciclo de Vida|Ciclo de Crecimiento]]
-- [[../00 - Guía Maestra|Volver al Inicio]]
+- [[LaMari|Volver al Inicio]]
 
 ---
 ## Navegación
-- [[00 - Guía Maestra|Volver a la Guía Maestra]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a la Guía Maestra]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

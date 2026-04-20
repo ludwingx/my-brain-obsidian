@@ -1,6 +1,6 @@
 # 🔐 Autenticación y Sesiones
 
-> [[Market GS]] > Autenticación
+> [[Market-GS]] > Autenticación
 
 ---
 

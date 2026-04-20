@@ -23,4 +23,4 @@ Evitar la recolección manual de recibos y transferencias. Extrae datos relevant
 🔨 En progreso activo (Servicio de webhook y setup básico completado)
 
 ## 🔗 Relacionado
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

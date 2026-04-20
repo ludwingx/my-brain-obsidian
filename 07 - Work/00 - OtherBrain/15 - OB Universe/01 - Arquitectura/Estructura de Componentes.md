@@ -12,4 +12,4 @@ El proyecto **OB Universe** confía gran parte de su interactividad a una colecc
 - **`retro-window.tsx`**: Simula una ventana de terminal clásica (estilo Windows 95/98 mezclado con cyberpunk). Se usa para exhibir los procesos `NEURAL_FEED.EXE` y `CORE_MONITOR.BAT` y contiene imágenes y gifs que simulan carga de procesos para asombrar al usuario final.
 
 ---
-🔙 **Principal:** [[OB Universe]]
+🔙 **Principal:** [[OB-Universe]]

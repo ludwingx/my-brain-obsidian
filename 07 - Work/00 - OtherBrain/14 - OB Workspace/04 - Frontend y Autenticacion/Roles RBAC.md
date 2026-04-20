@@ -19,7 +19,7 @@ La interfaz no renderiza botones "Delete" condicionales solo ocultándolos media
 
 #### Comportamiento del UI según Rol:
 
-1. **CEO:** Panel Master, posee acceso global y único al submódulo `expenses` y facturación de la agencia.
+1. **CEO / ADMIN_DEV:** Panel Master. Poseen acceso global. `ADMIN_DEV` tiene control total sobre gestión técnica y personal (roles y configuración). CEO mantiene el control exclusivo financiero.
 2. **Client:** Ruta paralela que lo aísla físicamente (`/portal`).
 3. **Intern / Dev:** Ven el Kanban global, pero el Developer sólo mueve *Cards (Tickets)* en las que está atado como `ticket.leadId` o `ticket.collaborators`. El *Intern* se limita exclusivamente a lo que le asignaron expresamente, evitando mover tickets críticos que alteren los reportes productivos de la agencia.
 
@@ -63,8 +63,8 @@ La interfaz no renderiza botones "Delete" condicionales solo ocultándolos media
 
 **Lógica de permisos:**
 - canView: Todos pueden ver tickets
-- canEdit: CEO o lead del ticket
-- canDelete: CEO o lead del ticket
+- canEdit: CEO, ADMIN_DEV, o lead del ticket
+- canDelete: CEO, ADMIN_DEV, o lead del ticket
 
 **Características:**
 - Solo renderiza botones que el usuario puede usar
@@ -102,14 +102,14 @@ La interfaz no renderiza botones "Delete" condicionales solo ocultándolos media
 #### 5. Dashboard por Rol
 
 **Lógica de renderizado:**
-- CEO: Muestra CEODashboard (con finanzas, analytics)
+- CEO / ADMIN_DEV: Muestra CEODashboard (con reportes avanzados, analytics). CEO también ve finanzas.
 - DEVELOPER/INTERN: Muestra DeveloperDashboard (tickets asignados, time tracking)
 - EXTERNAL_CLIENT: Muestra ClientDashboard (proyectos, tickets creados)
 
 **Características:**
 - Server Component (obtiene usuario en servidor)
 - Usa RoleGate para proteger cada dashboard
-- Fallback para CEO muestra DeveloperDashboard si no es CEO
+- Fallback para CEO/ADMIN_DEV muestra DeveloperDashboard si los permisos no coinciden.
 - Título común "Dashboard"
 
 ### Patrones de UI por Rol
@@ -171,10 +171,10 @@ La interfaz no renderiza botones "Delete" condicionales solo ocultándolos media
 
 ```mermaid
 graph LR
-    subgraph CEO["CEO - Acceso Total"]
-        A1[Finanzas]
+    subgraph CEO["CEO/ADMIN_DEV - Master Control"]
+        A1[Finanzas (Solo CEO)]
         A2[Analytics]
-        A3[Admin]
+        A3[Admin/Gestión Usuarios]
         A4[Todos los Tickets]
         A5[Todos los Proyectos]
     end

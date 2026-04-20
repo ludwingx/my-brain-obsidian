@@ -1,16 +1,10 @@
 ---
 created: 02-10-2025 13:00
 tags:
-  - n8n
-  - scraping
-  - fullstack
-  - appweb
-  - postgreSQL
-  - NextJS
-  - Project
-  - Work
+  - CRE
+  - CRE-Insight
 ---
-# C.R.E. Insights
+# C.R.E. Insight
 
 ## Descripción del Proyecto
 Plataforma para administrar analíticas de publicaciones de la fanpage de C.R.E., métricas de engagement, seguimiento de cada publicación y detección de publicaciones negativas. Además, permite monitorear menciones de C.R.E. en perfiles, grupos y publicaciones de Facebook, Instagram y TikTok para análisis de reputación y detección de posibles riesgos.
@@ -97,7 +91,4 @@ Plataforma: Web
   - [[07 - Work/00 - OtherBrain/07 - C.R.E. Insight/06 - Notas Rapidas/Ideas|Lluvia de Ideas]]
 
 ---
-## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+

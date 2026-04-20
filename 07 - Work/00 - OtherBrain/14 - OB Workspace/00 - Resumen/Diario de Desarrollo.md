@@ -39,4 +39,4 @@ En la segunda mitad del día se ha elevado la calidad de la experiencia de usuar
 - `components/ai/ai-chat-interface.tsx`: Selector de destino universal para IA.
 
 ---
-[[App Web OB-Workspace|Volver al Resumen de la App]]
+[[OB-Workspace|Volver al Resumen de la App]]

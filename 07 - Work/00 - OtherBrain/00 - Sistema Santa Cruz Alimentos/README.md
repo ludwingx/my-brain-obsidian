@@ -24,4 +24,4 @@ Módulos de desarrollo para Santa Cruz Alimentos y la cuenta de PoloCruz. Involu
 🔨 En progreso
 
 ## 🔗 Relacionado
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

@@ -10,4 +10,4 @@ Proyecto en fase inicial o conceptual.
 ❓ Sin info
 
 ## 🔗 Relacionado
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

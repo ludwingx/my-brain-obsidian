@@ -19,4 +19,4 @@ Módulo de Operaciones de Mercado enfocado en generar estrategias integrales de 
 🔨 En progreso
 
 ## 🔗 Relacionado
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

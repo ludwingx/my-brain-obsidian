@@ -1,6 +1,6 @@
 # 📦 Inventario
 
-> [[Market GS]] > Inventario
+> [[Market-GS]] > Inventario
 
 ---
 

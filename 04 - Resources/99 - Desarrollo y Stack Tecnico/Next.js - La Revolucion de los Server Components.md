@@ -14,4 +14,4 @@ Mi enfoque actual dista mucho del antiguo `pages/`. Ahora, la mentalidad es **Se
 
 ---
 ## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

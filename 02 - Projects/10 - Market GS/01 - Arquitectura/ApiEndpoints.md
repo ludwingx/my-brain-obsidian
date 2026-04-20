@@ -1,6 +1,6 @@
 # 🔌 API Endpoints
 
-> [[Market GS]] > API Endpoints
+> [[Market-GS]] > API Endpoints
 
 ---
 

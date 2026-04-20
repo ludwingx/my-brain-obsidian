@@ -1,6 +1,6 @@
 # 🧩 Componentes UI
 
-> [[Market GS]] > Componentes UI
+> [[Market-GS]] > Componentes UI
 
 ---
 

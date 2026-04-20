@@ -48,11 +48,11 @@ Para un ciclo continuo, se dividen los espacios:
 - Control climático (Higrómetro, ventiladores).
 
 ## 🔗 Relacionado
-- [[../00 - Guía Maestra|Guía Maestra]]
+- [[LaMari|Guía Maestra]]
 - [[Inventario y Herramientas|Lista detallada de materiales]]
 
 ---
 ## 🔽 Navegación
-- [[00 - Guía Maestra|Volver a la Guía Maestra]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a la Guía Maestra]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

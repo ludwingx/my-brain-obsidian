@@ -2,6 +2,7 @@
 tags:
   - CentroCerebral
   - Root
+  - nucle0
 ---
 
 # 🧠 Mi Núcleo Cerebral
@@ -18,7 +19,7 @@ Directorio principal de formación y fundamentos técnicos.
 
 ## 🌿 01 - Áreas Personales
 
-- [[00 - Guía Maestra|Guía Maestra de Cultivo (Mariaa)]]
+- [[LaMari|Guía Maestra de Cultivo (Mariaa)]]
 
 ## 🚀 02 - Proyectos (Personales y Portfolio)
 
@@ -43,14 +44,16 @@ Base de conocimiento de tecnologías y herramientas.
 
 Ecosistema de SaaS, bots y proyectos de agencias.
 
-- [[App Web OB-Workspace|OB Workspace]] — SaaS Interno de Project Management
-- [[TeLoVendo App Web|TeLoVendo App]] — E-commerce & Bots
-- [[App Web C.R.E. Insight|C.R.E. Insight]] — Scraping y Analítica Social
+- [[OB-Workspace|OB Workspace]] — SaaS Interno de Project Management
+  - [[Market-GS|Market-GS]] — Módulo de Gestión de Inventario
+- [[TeLoVendo|TeLoVendo App]] — E-commerce & Bots
+- [[CRE-Insight|C.R.E. Insight]] — Scraping y Analítica Social
 - [[09 - Inmobiliaria/README|Inmobiliaria App]]
 - [[10 - BrainBot/README|BrainBot]]
 - [[12 - OBMarketOps/README|OBMarketOps]]
 - [[00 - Sistema Santa Cruz Alimentos/README|Sistema Santa Cruz Alimentos]]
-- [[OB Universe]] — Portal Interno y Núcleo Operativo
+
+- [[OB-Universe]] — Portal Interno y Núcleo Operativo
 ---
 
 ## 📌 Estado del Sistema

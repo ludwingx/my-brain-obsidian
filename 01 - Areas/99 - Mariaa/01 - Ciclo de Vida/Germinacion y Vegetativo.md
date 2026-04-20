@@ -36,4 +36,4 @@ El objetivo es crear una estructura llena de ramas (nodos).
 
 ---
 ## 🔗 Navegación
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

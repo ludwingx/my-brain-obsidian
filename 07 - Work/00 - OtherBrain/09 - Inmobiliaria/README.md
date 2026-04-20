@@ -23,4 +23,4 @@ Reducir la pérdida de leads por falta de respuesta, cualificar automáticamente
 🔨 En progreso
 
 ## 🔗 Relacionado
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

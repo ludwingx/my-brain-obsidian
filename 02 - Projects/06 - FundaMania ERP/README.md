@@ -34,4 +34,4 @@ Tener un control preciso del inventario de productos (por modelo, tipo, color), 
 ## 🔗 Relacionado
 - [[Sistema de Gestión de Mercancía]] — Especificación técnica inicial
 - [[../01 - Farmacia Santa Rosita App/README|Farmacia SR App]] — Comparten base arquitectónica de ERP
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

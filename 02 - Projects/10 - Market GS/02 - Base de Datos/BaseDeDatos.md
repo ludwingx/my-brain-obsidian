@@ -1,6 +1,6 @@
 # 🗄️ Base de Datos (Prisma Schema)
 
-> [[Market GS]] > Base de Datos
+> [[Market-GS]] > Base de Datos
 
 ---
 

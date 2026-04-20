@@ -2,7 +2,6 @@
 tags:
   - DesarrolloDeSoftware
   - SoftwareDevelopment
-  - Nucleo
   - Aprendizaje
 ---
 # 💻 Núcleo de Ingeniería y Desarrollo de Software
@@ -25,8 +24,3 @@ Mi bitácora de evolución técnica. Aquí documento los pilares que sostienen m
 - [[../03 - Inteligencia Artificial/Nucleo de IA|Inteligencia Artificial y LLMs]]
 - [[../04 - Redes y Conectividad/Nucleo de Redes|Redes y Conectividad]]
 - [[../05 - Gestion de Proyectos y SCRUM/Nucleo de Gestion|Gestión de Proyectos y SCRUM]]
-
----
-## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]

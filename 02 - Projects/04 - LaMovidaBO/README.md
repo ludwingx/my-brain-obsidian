@@ -47,4 +47,4 @@ LaMovidaBO/
 - [[../02 - Sabores Bolivianísimos App/README|Sabores Bolivianísimos]] — cultura boliviana
 - [[01 - Ideas Principales]] — ideas detalladas del proyecto
 - [[00 - Estructura]] — estructura de carpetas del repo
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

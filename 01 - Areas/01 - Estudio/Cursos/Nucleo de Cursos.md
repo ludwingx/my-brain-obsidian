@@ -17,4 +17,4 @@ Registro de todas las capacitaciones externas y tutoriales procesados.
 
 ---
 ## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

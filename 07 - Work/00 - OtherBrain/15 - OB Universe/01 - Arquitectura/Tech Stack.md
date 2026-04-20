@@ -21,4 +21,4 @@ El repositorio fuente (`office-management`) que impulsa **OB Universe** está co
 El proyecto está diseñado fundamentalmente para ser una Single Page Application (SPA) / Portal Next.js sin recargas con transiciones inmediatas.
 
 ---
-🔙 **Principal:** [[OB Universe]]
+🔙 **Principal:** [[OB-Universe]]

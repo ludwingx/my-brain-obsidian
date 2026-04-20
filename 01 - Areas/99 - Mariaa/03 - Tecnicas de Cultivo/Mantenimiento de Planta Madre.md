@@ -48,6 +48,6 @@ Una madre necesita un aporte constante pero moderado de nutrientes:
 
 ---
 ## ?? Navegación
-- [[00 - Guía Maestra|Volver a la Guía Maestra]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a la Guía Maestra]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

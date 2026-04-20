@@ -1,6 +1,6 @@
 # 🛍️ Compras
 
-> [[Market GS]] > Compras
+> [[Market-GS]] > Compras
 
 ---
 

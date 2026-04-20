@@ -10,4 +10,4 @@ Entender TypeScript fue el momento en que dejé de "probar suerte" con el códig
 
 ---
 ## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
+- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

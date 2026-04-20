@@ -1,6 +1,6 @@
 # ⚙️ Stack Tecnológico
 
-> [[Market GS]] > Stack Tecnológico
+> [[Market-GS]] > Stack Tecnológico
 
 ---
 

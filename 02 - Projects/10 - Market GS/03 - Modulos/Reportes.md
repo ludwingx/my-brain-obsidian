@@ -1,6 +1,6 @@
 # 📈 Reportes
 
-> [[Market GS]] > Reportes
+> [[Market-GS]] > Reportes
 
 ---
 

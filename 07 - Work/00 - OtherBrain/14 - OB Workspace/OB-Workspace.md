@@ -32,7 +32,3 @@ tags:
   - [[07 - Work/00 - OtherBrain/14 - OB Workspace/07 - Propuestas y Vision|Propuestas de Gamificación, OB-Coins y Release Generators]]
 
 ---
-## 🔗 Navegación
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]
-- [[Mi Nucleo Cerebral|Volver a Mi Núcleo Cerebral (Root)]]

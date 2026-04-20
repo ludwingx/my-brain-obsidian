@@ -14,4 +14,4 @@ En la sección del catálogo (`/tools`):
 - Efectos *Hover*: Al pasar el mouse, los botones y tarjetas invierten sus colores, ofreciendo un feedback instantáneo y táctil muy satisfactorio para el usuario.
 
 ---
-🔙 **Principal:** [[OB Universe]]
+🔙 **Principal:** [[OB-Universe]]

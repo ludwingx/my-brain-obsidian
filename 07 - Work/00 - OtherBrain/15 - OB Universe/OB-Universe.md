@@ -1,4 +1,4 @@
-# OB Universe
+# OB-Universe
 ## El Núcleo Operativo de OtherBrain
 
 **OB Universe** es la plataforma central y el portal operativo interno diseñado para la empresa **OtherBrain**. Nació con la finalidad de centralizar, organizar y dar acceso a todas las herramientas, aplicaciones y módulos desarrollados internamente. 

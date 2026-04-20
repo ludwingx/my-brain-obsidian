@@ -23,4 +23,4 @@ La fase más crítica donde se define el peso y la potencia.
 
 ---
 ## 🔗 Navegación
-- [[00 - Guía Maestra|Volver a Guía Maestra (Mariaa)]]
+- [[LaMari|Volver a Guía Maestra (Mariaa)]]

@@ -1,10 +1,8 @@
 ---
 tags:
-  - maria
+  - LaMari
   - canabis
-  - Cultivo
-  - Hub
-  - Nucleo
+  - Marihuana
 ---
 
 # 🌿 Guía Maestra de Cultivo Profesional
@@ -41,9 +39,6 @@ Control de plagas y parámetros climáticos.
 Registros de crías, fechas y evolución de lotes.
 - [[Bitacora de Lote - Ejemplo|Bitácora de Lote (Crias) - Plantilla]]
 
----
-## 🔗 Navegación Jerárquica
-- [[Mi Nucleo Cerebral|Volver al Mi Núcleo Cerebral (Root)]]
 
 ---
 ## 📅 Registro de Última Actualización

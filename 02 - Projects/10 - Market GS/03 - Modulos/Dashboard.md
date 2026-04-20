@@ -1,6 +1,6 @@
 # 📊 Dashboard
 
-> [[Market GS]] > Dashboard
+> [[Market-GS]] > Dashboard
 
 ---
 

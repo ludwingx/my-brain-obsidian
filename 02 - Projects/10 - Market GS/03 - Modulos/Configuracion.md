@@ -1,6 +1,6 @@
 # ⚙️ Configuración (Catálogos)
 
-> [[Market GS]] > Configuración
+> [[Market-GS]] > Configuración
 
 ---
 
