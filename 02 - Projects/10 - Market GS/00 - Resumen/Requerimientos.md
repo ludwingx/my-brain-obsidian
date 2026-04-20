@@ -1,5 +1,6 @@
 # Market GS — Requerimientos del Cliente
 
+> [[Market GS]] > Requerimientos
 > **Colores del negocio:** Negro y blanco
 > **Modelo de ingreso:** Porcentaje sobre las ganancias de ventas mensuales
 
