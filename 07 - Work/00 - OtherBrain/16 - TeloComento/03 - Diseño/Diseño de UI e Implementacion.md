@@ -1,4 +1,12 @@
+---
+title: Diseño de UI e Implementación
+nav_order: 3
+parent: TeloComento
+---
+
 # Diseño de la Interfaz de Usuario (UI/UX)
+
+[⬅ Modelo de Datos](../02%20-%20Arquitectura/Modelo%20de%20Datos.md) | [Siguiente: Integración API ➡](../04%20-%20API%20&%20Integracion/Integracion y Flujos.md)
 
 ## 1. Mapa de Sitio / Navegación
 - **Dashboard**: Estado general de los 3 formatos de búsqueda y resumen de bots.

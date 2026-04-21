@@ -1,4 +1,12 @@
+---
+title: Integración y Flujos
+nav_order: 4
+parent: TeloComento
+---
+
 # Documentación de API e Integración
+
+[⬅ Diseño de UI](../03%20-%20Diseño/Diseño%20de%20UI%20e%20Implementacion.md) | [Volver al Inicio 🏠](../TeloComento.md)
 
 ## 1. API de Ingesta (Scraper Externo -> Web App)
 **Endpoint**: `POST /api/ingest`

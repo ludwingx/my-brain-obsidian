@@ -1,4 +1,12 @@
+---
+title: Requisitos del Sistema
+nav_order: 1
+parent: TeloComento
+---
+
 # Especificación de Requisitos de Software (SRS)
+
+[⬅ Volver al Inicio](../TeloComento.md) | [Siguiente: Modelo de Datos ➡](../02%20-%20Arquitectura/Modelo%20de%20Datos.md)
 
 ## 1. Requisitos Funcionales (RF)
 

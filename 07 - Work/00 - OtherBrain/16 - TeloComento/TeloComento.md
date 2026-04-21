@@ -1,6 +1,27 @@
-# OB BOT
+---
+project: TeloComento
+status: Planning
+tags:
+  - project
+  - systems-analysis
+  - monitoring
+  - AI
+  - TeloComento
+---
 
-[BCO.0dfc9abf-39bb-4819-8db1-2ad377691468.png (1536×1024)](https://copilot.microsoft.com/th/id/BCO.0dfc9abf-39bb-4819-8db1-2ad377691468.png)
+# TeloComento
+
+![BCO.0dfc9abf-39bb-4819-8db1-2ad377691468.png (1536×1024)](https://copilot.microsoft.com/th/id/BCO.0dfc9abf-39bb-4819-8db1-2ad377691468.png)
+
+## 🗺️ Índice de Documentación Detallada
+Para una visión profunda de cada fase, consulta los siguientes artefactos:
+
+1.  **[01 - Requisitos del Sistema](./01%20-%20Requisitos/Requisitos%20del%20Sistema.md)**: Especificación funcional, límites de búsqueda y flujo Tinder.
+2.  **[02 - Modelo de Datos](./02%20-%20Arquitectura/Modelo%20de%20Datos.md)**: Esquema de base de datos (Prisma/PostgreSQL).
+3.  **[03 - Diseño de UI e Implementación](./03%20-%20Diseño/Diseño%20de%20UI%20e%20Implementacion.md)**: Mapa del sitio, componentes shadcn/ui y stack técnico.
+4.  **[04 - Integración y Flujos](./04%20-%20API%20&%20Integracion/Integracion%20y%20Flujos.md)**: Endpoints de API, ingesta de scraper y lógica de IA.
+
+---
 
 ## 1) Idea / Objetivo
 
