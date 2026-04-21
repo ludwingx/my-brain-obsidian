@@ -48,5 +48,8 @@ parent: TeloComento
 
 ## 3. Flujo de Integración IA (OpenRouter)
 1. **Detección de Sentimiento**: Al recibir la publicación, se envía el `content` a OpenRouter con un prompt de clasificación (`positiva`, `neutra`, `negativa`).
-2. **Generación de Comentarios**: Al activar la orden, se envía el `content` de la publicación + `notes` del usuario + `goal` (apoyar/criticar) para generar N respuestas únicas.
+2. **Generación de Comentarios**:
+    - **Prompt Contextual**: Se envía el `content` de la publicación (como contexto) + `notes` del usuario (instrucciones) + `goal` (apoyar/criticar).
+    - **Cantidad**: Se solicita a la IA generar N respuestas (donde N = `user.botCount`).
+    - **Unicidad**: El prompt exige que cada comentario sea único y natural.
 3. **Generación de Variantes de Búsqueda**: El backend utilizará la IA para generar variaciones de la "Palabra Clave + Causa" (ej. "Luis Fernando Camacho en El Deber", "Noticias Camacho", "Post sobre Camacho") para que el scraper las utilice como semillas de búsqueda.

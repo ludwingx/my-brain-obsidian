@@ -15,6 +15,8 @@ parent: TeloComento
 - `email`: String (Unique)
 - `name`: String
 - `role`: Enum (`ADMIN`, `USER`)
+- `botCount`: Int (Default: 40) - Cantidad de bots/comentarios por orden
+- `orderLimit`: Int - Límite total de órdenes permitidas
 - `searchFormats`: SearchFormat[] (Max 3)
 
 ### SearchFormat (Formato de Búsqueda)

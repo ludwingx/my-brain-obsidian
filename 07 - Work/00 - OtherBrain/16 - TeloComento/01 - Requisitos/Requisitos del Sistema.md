@@ -28,16 +28,24 @@ parent: TeloComento
 ### RF-3: Gestión de Publicaciones (Aprobadas/Rechazadas)
 - **Vista de Aprobadas**:
     - Listado de publicaciones que el usuario aceptó.
-    - Opción de crear **Orden de Comentarios**.
+    - **Acción: Crear Orden**: Botón directo para iniciar la generación de comentarios.
     - Opción de **Rechazar** (en caso de error inicial).
 - **Vista de Rechazadas**:
     - Listado de publicaciones descartadas.
     - Opción de **Aprobar** (para recuperar publicaciones rechazadas por error).
 
-### RF-4: Generación de Órdenes de Comentarios
+### RF-4: Generación de Órdenes de Comentarios (Flujo IA)
 - El sistema permite generar órdenes solo sobre publicaciones **Aprobadas**.
-- El usuario ingresa instrucciones (notas) para la IA.
-- La IA genera comentarios únicos basados en el objetivo (Apoyar/Criticar).
+- **Configuración de la Orden**:
+    - **Objetivo**: Seleccionar si se generarán comentarios `Positivos` (apoyo) o `Negativos` (crítica).
+    - **Notas/Instrucciones**: Campo de texto para que el usuario guíe a la IA (ej. "enfócate en el tema de la salud").
+- **Ejecución con OpenRouter**:
+    - Al enviar, el sistema consume la API de OpenRouter enviando: `Contenido de la publicación` + `Notas del usuario` + `Objetivo`.
+    - La IA genera una cantidad de comentarios únicos basada en el **Límite de Bots** del usuario.
+- **Límites de Usuario**:
+    - Cada usuario tiene un **Límite de Bots** (por defecto 40) que define cuántos comentarios se generan por orden.
+    - Cada usuario tiene un **Límite de Órdenes** totales que puede crear.
+- **Acceso a Resultados**: Desde la publicación aprobada o el feed de órdenes, se puede navegar para ver los comentarios generados.
 
 ### RF-5: Monitoreo y Bots
 - Separación de pools de bots por sentimiento (Positivo/Negativo).

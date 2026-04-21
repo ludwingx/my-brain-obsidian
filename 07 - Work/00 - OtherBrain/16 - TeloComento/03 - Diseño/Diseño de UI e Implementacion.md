@@ -20,9 +20,12 @@ parent: TeloComento
 
 ## 2. Componentes Clave (shadcn/ui)
 - **Tinder Card**: Componente con el texto de la publicación, sentimiento detectado por IA y botones gigantes (✅ Aprobar / ❌ Rechazar). Soporte para gestos de Swipe.
+- **Create Order Modal**: Diálogo que se abre desde una publicación aprobada. Incluye:
+    - Selector de objetivo: `Apoyo (+)` o `Crítica (-)`.
+    - Input de texto para notas/instrucciones IA.
+    - Indicador de bots que se usarán (ej. "Se generarán 40 comentarios").
+- **Generated Comments View**: Lista de comentarios creados por la IA para una orden, con estados individuales.
 - **Search Format Card**: Muestra la combinación (Palabra Clave + Causa) y el estado del scraper.
-- **Toggle View**: Switch para navegar entre "Aprobadas" y "Rechazadas" en el feed principal.
-- **Order Modal**: Formulario para ingresar notas adicionales antes de generar comentarios con IA.
 
 ## 3. Guía de Colores (Sentimientos)
 - **Positivo**: `text-green-600`, `bg-green-100`

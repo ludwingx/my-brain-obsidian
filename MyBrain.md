@@ -47,6 +47,8 @@ Ecosistema de SaaS, bots y proyectos de agencias.
 - [[OB-Workspace|OB Workspace]] — SaaS Interno de Project Management
   - [[Market-GS|Market-GS]] — Módulo de Gestión de Inventario
 - [[TeLoVendo|TeLoVendo App]] — E-commerce & Bots
+- [[TeloComento|TeloComento]] — Monitoreo y Comentarios en Redes Sociales
+- [[PoloCruz|PoloCruz]] — Sistema ERP para Alimentos
 - [[CRE-Insight|C.R.E. Insight]] — Scraping y Analítica Social
 - [[09 - Inmobiliaria/README|Inmobiliaria App]]
 - [[10 - BrainBot/README|BrainBot]]
