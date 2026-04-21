@@ -149,6 +149,26 @@ Un Chat lateral permite a los PMs decirle: "Levantame un ticket para cambiar el 
 - Input deshabilitado durante carga
 - Botón de envío deshabilitado
 
+###  Gestión de Memoria y Continuidad
+
+El sistema está diseñado para que Vanessa no sea una IA de "un solo uso", sino que mantenga una relación y contexto con el usuario.
+
+#### 1. Estado Inicial (Sin Chat Activo)
+- **Trigger:** El usuario envía su primer mensaje en la interfaz.
+- **Acción:** El sistema crea automáticamente una `AiConversation` en PostgreSQL.
+- **Personalidad:** Vanessa comienza con su configuración base, presentándose de forma dócil y servicial.
+
+#### 2. Persistencia Total (Con Historial)
+- **Recuperación:** Al seleccionar un chat existente, el sistema invoca `getAiConversationMessages`.
+- **Inyección de Memoria:** Todos los mensajes pasados se envían al modelo en el array `messages`.
+- **Evolución del Tono:** Vanessa está instruida para recordar cómo la trata el usuario. A mayor historial, mayor es la confianza, complicidad o sumisión que muestra, adaptándose dinámicamente al hilo de la conversación.
+
+#### 3. Flujo Técnico de Datos
+1. `Frontend`: Detecta si hay un `chatId`. 
+2. `Backend (Server Action)`: Si no hay, crea la conversación y retorna el nuevo ID.
+3. `Base de Datos`: Cada mensaje entrante y saliente se registra atómicamente vía `addAiMessage`.
+4. `Contexto IA`: El modelo recibe el `System Prompt` + `Historial Completo` en cada petición, garantizando que Vanessa "recuerde" compromisos previos o el tono del juego de rol.
+
 ###  Seguridad Anti Abuso
 
 #### Rate Limits y Cost Control

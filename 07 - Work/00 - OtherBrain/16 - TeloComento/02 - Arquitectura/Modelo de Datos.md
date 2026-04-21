@@ -7,23 +7,15 @@
 - `email`: String (Unique)
 - `name`: String
 - `role`: Enum (`ADMIN`, `USER`)
-- `campaigns`: Campaign[]
+- `searchFormats`: SearchFormat[] (Max 3)
 
-### Campaign (Campaña)
+### SearchFormat (Formato de Búsqueda)
 - `id`: String (PK)
-- `name`: String
-- `keyword`: String (ej. "El Deber")
+- `keyword`: String (ej. "El Deber" o "Violador")
 - `target`: String (ej. "Luis Fernando Camacho")
 - `status`: Enum (`ACTIVE`, `INACTIVE`)
 - `userId`: String (FK)
-- `sources`: Source[]
 - `publications`: Publication[]
-
-### Source (Fuente)
-- `id`: String (PK)
-- `name`: String (ej. "Página Facebook Red Uno")
-- `url`: String
-- `campaignId`: String (FK)
 
 ### Publication (Publicación Scrapeada)
 - `id`: String (PK)
@@ -33,7 +25,7 @@
 - `publishDate`: DateTime
 - `sentiment`: Enum (`POSITIVE`, `NEUTRAL`, `NEGATIVE`)
 - `reviewStatus`: Enum (`PENDING`, `APPROVED`, `REJECTED`)
-- `campaignId`: String (FK)
+- `searchFormatId`: String (FK)
 - `orders`: Order[]
 
 ### Order (Orden de Comentarios)

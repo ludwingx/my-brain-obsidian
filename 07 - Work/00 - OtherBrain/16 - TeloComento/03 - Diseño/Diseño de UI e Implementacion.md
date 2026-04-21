@@ -1,24 +1,20 @@
 # Diseño de la Interfaz de Usuario (UI/UX)
 
 ## 1. Mapa de Sitio / Navegación
-- **Dashboard**: Resumen de campañas activas, últimas publicaciones y estado de bots.
-- **Campañas**:
-    - Listado de campañas (Cards).
-    - Creación/Edición de campaña.
+- **Dashboard**: Estado general de los 3 formatos de búsqueda y resumen de bots.
+- **Búsquedas (Setup)**: Configuración obligatoria inicial de los 3 formatos (Palabra Clave + Causa).
+- **Aprobación (Tinder View)**: Interfaz de decisión rápida para nuevas publicaciones scrapeadas.
 - **Publicaciones (Feed)**:
-    - Filtros por campaña, sentimiento y estado de revisión.
-    - Acción: Aprobar/Rechazar.
-    - Acción: Crear Orden.
-- **Órdenes**:
-    - Listado de órdenes activas y su progreso.
-    - Detalle de orden y edición de comentarios generados.
-- **Configuración**: Perfil de usuario y API Keys (OpenRouter).
+    - **Aprobadas**: Listado para generar órdenes.
+    - **Rechazadas**: Historial con opción de recuperación.
+- **Órdenes**: Seguimiento de ejecución de bots.
+- **Configuración**: Perfil y API Keys.
 
 ## 2. Componentes Clave (shadcn/ui)
-- **Campaña Card**: Muestra nombre, palabra clave, causa y un badge de estado (Activo/Inactivo).
-- **Publicación Row**: Muestra el texto de la publicación, fuente, sentimiento (Badge de color: Rojo/Gris/Verde) y botones de acción.
-- **Progress Bar**: Para visualizar el avance de los bots en una orden.
-- **Sonner Notifications**: Alertas para cambios de estado exitosos o errores de generación.
+- **Tinder Card**: Componente con el texto de la publicación, sentimiento detectado por IA y botones gigantes (✅ Aprobar / ❌ Rechazar). Soporte para gestos de Swipe.
+- **Search Format Card**: Muestra la combinación (Palabra Clave + Causa) y el estado del scraper.
+- **Toggle View**: Switch para navegar entre "Aprobadas" y "Rechazadas" en el feed principal.
+- **Order Modal**: Formulario para ingresar notas adicionales antes de generar comentarios con IA.
 
 ## 3. Guía de Colores (Sentimientos)
 - **Positivo**: `text-green-600`, `bg-green-100`
