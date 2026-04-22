@@ -8,15 +8,11 @@
 
 | Ruta                         | Descripción                    |
 |------------------------------|--------------------------------|
-| `/inventory`                 | Página principal del inventario|
-| `/inventory/products`        | Listado/gestión de productos   |
-| `/inventory/movements`       | Historial de movimientos       |
-| `/inventory/brands`          | CRUD de marcas                 |
-| `/inventory/phone-models`    | CRUD de modelos de teléfono    |
-| `/inventory/colors`          | CRUD de colores                |
-| `/inventory/types`           | CRUD de tipos de producto      |
-| `/inventory/materials`       | CRUD de materiales             |
-| `/inventory/compatibility`   | CRUD de compatibilidad         |
+| `(dashboard)/inventario`                 | Página principal del inventario|
+| `(dashboard)/inventario/productos`       | Listado/gestión de productos   |
+| `(dashboard)/inventario/movimientos`     | Historial de movimientos       |
+
+*Nota: Los CRUDs de catálogos (marcas, colores, modelos, tipos, materiales) ahora viven en el módulo de [[02 - Projects/10 - Market GS/03 - Modulos/Configuracion|Configuración]] bajo `(dashboard)/configuracion/`.*
 
 ## Producto — Campos Principales
 

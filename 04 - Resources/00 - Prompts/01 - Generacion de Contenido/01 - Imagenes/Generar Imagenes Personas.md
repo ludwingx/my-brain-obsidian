@@ -1,3 +1,22 @@
+---
+tags:
+  - Prompt
+  - Prompts
+  - IA
+  - Imagen
+  - Generación
+  - Personas
+  - Identidad
+---
+
+# 🖼️ Prompt para Generar Imágenes de Personas Ficticias
+
+> [[../../Prompts|Volver al Índice de Prompts]]
+
+**Relacionado con:** [[../../02 - Optimizacion/00 - Autoevaluacion/Cuestionar IA|Autoevaluación de IA]]
+
+---
+
 ### Prompt para generar primera imagen usando otra imagen de una persona real:
 
 ```
@@ -73,3 +92,10 @@ Outfit: super casual dominguero — loose t-shirt + shorts, light polo + capri, 
 Expression: típico domingo feliz/relaxed, soft laugh or content look.
 
 Candid smartphone pic, natural park daylight, warm humid air, subtle sweat/glow, real Bolivian lowland Sunday vibe."
+
+---
+
+## 📝 Notas
+- **Preservación de identidad:** Mantener 95%+ de rasgos mestizos bolivianos auténticos.
+- **Variación controlada:** Cambiar solo pose, contexto, outfit, pero NO la estructura facial.
+- **Contextos realistas:** Escenarios cotidianos de Bolivia (Santa Cruz, La Paz, Cochabamba, Tarija).

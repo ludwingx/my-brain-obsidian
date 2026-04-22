@@ -21,7 +21,3 @@ Crear una experiencia híbrida moderna en cafetería: digitalizar la visita del 
 
 ## 📌 Estado
 💡 Idea (Fase de levantamiento)
-
-## 🔗 Relacionado
-- [[Levantamiento negocio]] — Requerimientos detallados y visión del negocio
-- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

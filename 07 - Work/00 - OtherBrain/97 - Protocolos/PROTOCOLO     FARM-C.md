@@ -1,3 +1,21 @@
+---
+tags:
+  - Protocolo
+  - Facebook
+  - Marketing
+  - Identidad
+  - Seguridad
+---
+
+# 🛡️ PROTOCOLO FARM-C
+
+---
+
+## 📋 Resumen
+Protocolo completo para la creación y calentamiento de cuentas de Facebook con seguridad extrema. Incluye gestión de identidad, fotos generadas, y comportamiento humano.
+
+---
+
 #### **FASE 0: Preparación del Entorno (Infraestructura)**
 
 1. **Hardening de Dispositivos (NO - Limpieza):**
@@ -119,3 +137,10 @@ Para pasar de "cuenta creada" a "cuenta real", implementa estas reglas:
     - Antes de crear Facebook, **obligatoriamente** ver 1 video completo en YouTube con la cuenta de Google.
     - Si ambos operadores ponen el mismo video (ej. una canción famosa), Facebook lo detecta.
     - **Protocolo:** Cada cuenta debe ver un video diferente (uno noticias, otro música rock, otro música pop, otro video de recetas). Esto define el algoritmo de publicidad del celular.
+
+---
+## 📊 Métricas Clave
+- **Tiempo por cuenta:** 1.5 - 2 horas (setup + calentamiento)
+- **Oleadas:** 5 cuentas por día (máximo)
+- **Ratio seguridad:** 20-35 cuentas por operador/semana
+- **Trust Score:** Alto (LTE + comportamiento humano)

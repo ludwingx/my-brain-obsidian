@@ -93,5 +93,3 @@ Además, integrar un **sistema automatizado de marketing** para la planificació
 - **Automatización**: pedidos por WhatsApp y marketing integrados con n8n y Evolution API.  
 - **Seguridad**: JWT y control de roles.  
 - **Visibilidad completa**: ERP como centro único para operaciones y marketing digital.  
-
-[[00.- Sistema de Marketing IA]]

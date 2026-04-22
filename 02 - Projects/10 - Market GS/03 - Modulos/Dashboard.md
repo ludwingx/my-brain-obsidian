@@ -6,7 +6,7 @@
 
 ## Ruta
 
-`/dashboard` → `src/app/dashboard/page.tsx`
+`/dashboard` → `src/app/(dashboard)/dashboard/page.tsx`
 
 ## Descripción
 
@@ -16,9 +16,9 @@ Página principal del sistema después del login. Muestra un resumen general del
 
 El dashboard presenta métricas y resúmenes usando componentes `MetricCard` y `QuickActionCard`:
 
-- **Métricas principales** — Ventas del día/mes, productos en stock, alertas de stock bajo
-- **Acciones rápidas** — Accesos directos a las funciones más usadas
-- **Actividad reciente** — Últimos movimientos del sistema
+- **Métricas principales** — [[Ventas]] del día/mes, productos en [[Inventario]] (stock), alertas de stock bajo.
+- **Acciones rápidas** — Accesos directos a las funciones más usadas (como nueva venta, nueva en [[Compras]]).
+- **Actividad reciente** — Últimos movimientos del sistema.
 
 ## Queries
 

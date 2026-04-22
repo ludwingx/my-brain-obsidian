@@ -6,7 +6,7 @@
 
 ## Ruta
 
-`/settings` → `src/app/settings/page.tsx`
+`(dashboard)/configuracion` → `src/app/(dashboard)/configuracion/page.tsx`
 
 ## Descripción
 
@@ -16,12 +16,12 @@ Centro de administración de catálogos del sistema. Es la puerta de entrada a t
 
 | Catálogo              | Ruta                         | Modelo Prisma   |
 |-----------------------|------------------------------|-----------------|
-| Modelos de Teléfono   | `/inventory/phone-models`    | `PhoneModel`    |
-| Colores               | `/inventory/colors`          | `Color`         |
-| Tipos de Producto     | `/inventory/types`           | `ProductType`   |
-| Materiales            | `/inventory/materials`       | `Material`      |
-| Compatibilidad        | `/inventory/compatibility`   | `Compatibility` |
-| Proveedores           | `/purchases/providers`       | `Supplier`      |
+| Marcas                | `(dashboard)/configuracion/marcas` | `Brand`         |
+| Modelos de Teléfono   | `(dashboard)/configuracion/modelos`| `PhoneModel`    |
+| Colores               | `(dashboard)/configuracion/colores`| `Color`         |
+| Tipos de Producto     | `(dashboard)/configuracion/tipos`  | `ProductType`   |
+| Materiales            | `(dashboard)/configuracion/materiales` | `Material`      |
+| Proveedores           | `(dashboard)/configuracion/proveedores` | `Supplier`      |
 
 ## Funcionalidad de cada Catálogo
 

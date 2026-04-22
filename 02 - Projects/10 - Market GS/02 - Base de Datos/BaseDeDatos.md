@@ -21,6 +21,8 @@ erDiagram
     Client ||--o{ Sale : compra
     Purchase ||--o{ PurchaseItem : contiene
     User ||--o{ InventoryMovement : ejecuta
+    Supplier ||--o{ WalletTransaction : tiene
+    User ||--o{ WalletTransaction : registra
 ```
 
 ---
@@ -72,3 +74,4 @@ El modelo `Product` es el **centro** del sistema. Se relaciona con casi todas la
 | `Purchase`          | Pedido a proveedor                 | `supplierId`, `totalAmount`, `status` (pendiente/recibido/parcial/cancelado), `invoiceNumber`, `notes` |
 | `PurchaseItem`      | Ítems dentro de un pedido          | `purchaseId`, `productId`, `quantityOrdered`, `quantityGood`, `quantityDamaged`, `unitCost`, `totalCost` |
 | `InventoryMovement` | Movimiento de inventario           | `productId`, `type`, `quantity`, `reason`, `reference`, `notes`, `userId` |
+| `WalletTransaction` | Transacción financiera de Wallet   | `supplierId`, `type` (ingreso/egreso), `amount`, `reason`, `notes`, `userId` |

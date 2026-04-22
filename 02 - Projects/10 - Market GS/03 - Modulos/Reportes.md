@@ -6,7 +6,7 @@
 
 ## Ruta
 
-`/reports` → `src/app/reports/page.tsx`
+`(dashboard)/reportes` → `src/app/(dashboard)/reportes/page.tsx`
 
 ## Descripción
 
@@ -16,11 +16,11 @@ Módulo de reportes y análisis del negocio. Presenta datos consolidados sobre v
 
 La página de reportes muestra:
 
-- **Resumen financiero** — Ingresos, costos, ganancias
-- **Análisis de ventas** — Por período, por producto, por tipo
-- **Estado del inventario** — Stock actual, productos con bajo stock
-- **Historial de compras** — Gastos por proveedor y período
+- **Resumen financiero** — Ingresos, costos, ganancias (Ganancia Neta Real calculada en vivo)
+- **Análisis de ventas** — Conexión con el módulo de [[Ventas]] por período, producto y tipo.
+- **Estado del inventario** — Conexión con [[Inventario]] (stock actual, productos con bajo stock).
+- **Historial de compras** — Conexión con [[Compras]] y [[Configuracion]] (Gastos por proveedor).
 
 ## Archivo Principal
 
-`src/app/reports/page.tsx` (17,360 bytes — uno de los archivos más grandes del proyecto)
+`src/app/(dashboard)/reportes/page.tsx`

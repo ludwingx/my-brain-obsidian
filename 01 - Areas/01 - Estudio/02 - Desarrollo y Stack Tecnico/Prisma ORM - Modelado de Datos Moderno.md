@@ -17,6 +17,3 @@ Aprendí que el esquema es la **Única Fuente de Verdad**.
 ## 🛠️ Workflow de Migraciones
 - `npx prisma migrate dev`: Nunca edito la BD manualmente. Todo rastro queda en archivos `.sql` preventivos.
 - `seed.ts`: Automatización de carga de datos iniciales para entornos de desarrollo.
-
-## 🔗 Relacionado
-- [[Next.js - La Revolucion de los Server Components|Integración de Prisma en RSC]]

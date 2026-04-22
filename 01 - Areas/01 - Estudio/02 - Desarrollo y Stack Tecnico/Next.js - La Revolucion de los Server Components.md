@@ -13,5 +13,3 @@ tags:
 Mi enfoque actual dista mucho del antiguo `pages/`. Ahora, la mentalidad es **Server-First**.
 
 ---
-## 🔗 Navegación
-- [[MyBrain|Volver a Mi Núcleo Cerebral (Root)]]

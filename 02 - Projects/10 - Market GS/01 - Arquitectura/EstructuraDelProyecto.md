@@ -31,25 +31,35 @@ todofundas/                        ← Raíz del proyecto (renombrar a market-gs
 │   │   │   ├── product-types/
 │   │   │   ├── products/
 │   │   │   └── providers/
-│   │   ├── dashboard/             ← Dashboard
-│   │   ├── inventory/             ← Inventario + sub-catálogos
-│   │   │   ├── products/
-│   │   │   ├── movements/
-│   │   │   ├── brands/
-│   │   │   ├── phone-models/
-│   │   │   ├── colors/
-│   │   │   ├── types/
-│   │   │   ├── materials/
-│   │   │   └── compatibility/
-│   │   ├── purchases/             ← Compras
-│   │   │   ├── components/
-│   │   │   └── supplier/
-│   │   ├── sales/                 ← Ventas
-│   │   │   └── new/
-│   │   ├── reports/               ← Reportes
-│   │   ├── settings/              ← Configuración
-│   │   ├── login/                 ← Login
-│   │   └── register/              ← Registro
+│   │   ├── (public)/              ← Catálogo público y landing
+│   │   │   ├── layout.tsx         ← Navbar simple + footer
+│   │   │   ├── page.tsx           ← Landing page Market GS
+│   │   │   └── catalogo/          ← Grid de productos público
+│   │   ├── (auth)/                ← Autenticación
+│   │   │   ├── layout.tsx         ← Layout minimalista centrado
+│   │   │   ├── login/             ← Login
+│   │   │   └── register/          ← Registro
+│   │   ├── (dashboard)/           ← Sistema privado
+│   │   │   ├── layout.tsx         ← SidebarProvider + AppSidebar + Auth check
+│   │   │   ├── dashboard/         ← Dashboard
+│   │   │   ├── inventario/        ← Inventario
+│   │   │   │   ├── productos/
+│   │   │   │   └── movimientos/
+│   │   │   ├── compras/           ← Compras al proveedor
+│   │   │   │   ├── nueva/
+│   │   │   │   └── [id]/recibir/  ← Filtro de Realidad
+│   │   │   ├── ventas/            ← Ventas a clientes
+│   │   │   │   └── nueva/
+│   │   │   ├── configuracion/     ← CRUDs de catálogos
+│   │   │   │   ├── marcas/
+│   │   │   │   ├── modelos/
+│   │   │   │   ├── colores/
+│   │   │   │   ├── tipos/
+│   │   │   │   ├── materiales/
+│   │   │   │   ├── proveedores/
+│   │   │   │   └── ajustes/
+│   │   │   ├── wallet/            ← Billetera de Compensaciones
+│   │   │   └── reportes/          ← Reportes financieros
 │   ├── components/                ← Componentes React
 │   │   ├── ui/                    ← Componentes base (shadcn/ui)
 │   │   ├── providers/             ← Context providers

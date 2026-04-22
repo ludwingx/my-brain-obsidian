@@ -22,4 +22,3 @@ Este Modulo esta desarrollado en el siguiente archivo:
 	- [[Documento De Especificación del Proyecto]]
 	- [[Generación de Ideas y Planificacion de Contenido]]
 	- [[Sistema de configuracion en 2 etapas]]
-	- [[00.- Sistema de Marketing IA]]

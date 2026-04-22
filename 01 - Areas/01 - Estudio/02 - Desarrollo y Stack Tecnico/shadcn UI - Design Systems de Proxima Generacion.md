@@ -18,6 +18,3 @@ Mi stack visual se basa en la flexibilidad. shadcn/ui no es una librería de com
 - **DataTable:** El corazón de mis SaaS para mostrar proyectos y tickets.
 - **Forms (React Hook Form + Zod):** Validación de extremo a extremo (Frontend + Server Actions).
 - **Cards & Layouts:** Uso de `grids` complejos para dashboards.
-
-## 🔗 Relacionado
-- [[../../07 - Work/00 - OtherBrain/14 - OB Workspace/04 - Frontend y Autenticacion/Layouts y Navegacion|Implementación en OB Workspace]]

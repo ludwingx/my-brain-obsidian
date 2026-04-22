@@ -8,8 +8,8 @@
 
 | Ruta          | Descripción                                  |
 |---------------|----------------------------------------------|
-| `/sales`      | Historial de ventas con filtros y búsqueda   |
-| `/sales/new`  | Formulario para registrar una nueva venta     |
+| `(dashboard)/ventas`      | Historial de ventas con filtros y búsqueda   |
+| `(dashboard)/ventas/nueva`  | Formulario para registrar una nueva venta     |
 
 ## Modelo `Sale`
 
@@ -17,7 +17,7 @@ Cada venta registra:
 
 | Campo             | Descripción                                    |
 |-------------------|------------------------------------------------|
-| `productId`       | Producto vendido                               |
+| `productId`       | Producto de [[Inventario]] vendido             |
 | `quantity`        | Cantidad vendida                               |
 | `unitPrice`       | Precio unitario al que se vendió               |
 | `originalPrice`   | Precio original (antes de descuento)           |
@@ -37,7 +37,7 @@ Cada venta registra:
 
 ## Historial
 
-La página `/sales` muestra un listado con:
+La página `(dashboard)/ventas` muestra un listado con:
 - Filtros por fecha, tipo, producto
-- Totales de ventas
+- Totales de ventas (alimentan los [[Reportes]])
 - Detalles de cada transacción

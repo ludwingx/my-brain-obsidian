@@ -24,30 +24,7 @@ Stack: Next.js 16 + Prisma + PostgreSQL
 
 ---
 
-## � Integración con OB Workspace
-
-Market GS está integrado como módulo del núcleo OB Workspace, compartiendo:
-
-- **Base de Datos:** Misma instancia PostgreSQL con Prisma
-- **Autenticación:** Sistema de usuarios compartido
-- **UI/UX:** Componentes shadcn/ui y diseño consistente
-- **Arquitectura:** Mismo patrón de Server Actions y rutas
-- **Time Tracking:** Operaciones de inventario pueden ser rastreadas
-- **Reporting:** Datos de ventas/compras integrados en analytics de OB Workspace
-
-### Mapeo de Entidades
-
-| Market GS | OB Workspace | Propósito |
-|-----------|--------------|-----------|
-| Productos | Projects | Productos como proyectos gestionados |
-| Ventas | Expenses | Ventas registradas como ingresos |
-| Compras | Expenses | Compras como gastos de proyecto |
-| Stock | Tickets | Control de inventario como tickets |
-| Proveedores | Users | Proveedores como usuarios externos |
-
----
-
-## �📋 Secciones de la Documentación
+## 📋 Secciones de la Documentación
 
 - 00 - Resumen
   - [[02 - Projects/10 - Market GS/00 - Resumen/Requerimientos|📝 Requerimientos del Cliente]]
@@ -61,6 +38,7 @@ Market GS está integrado como módulo del núcleo OB Workspace, compartiendo:
   - [[02 - Projects/10 - Market GS/02 - Base de Datos/BaseDeDatos|🗄️ Prisma Schema y Modelos]]
 - 03 - Módulos
   - [[02 - Projects/10 - Market GS/03 - Modulos/Dashboard|📊 Dashboard]]
+  - [[02 - Projects/10 - Market GS/03 - Modulos/Landing-Publica|🌐 Landing Pública]]
   - [[02 - Projects/10 - Market GS/03 - Modulos/Inventario|📦 Inventario]]
   - [[02 - Projects/10 - Market GS/03 - Modulos/Ventas|🛒 Ventas]]
   - [[02 - Projects/10 - Market GS/03 - Modulos/Compras|🛍️ Compras]]
@@ -74,6 +52,7 @@ Market GS está integrado como módulo del núcleo OB Workspace, compartiendo:
 | Módulo         | Estado       |
 |----------------|--------------|
 | Dashboard      | ✅ Funcional  |
+| Landing Pública| ✅ Funcional  |
 | Inventario     | ✅ Funcional  |
 | Ventas         | ✅ Funcional  |
 | Compras        | ✅ Funcional  |
@@ -83,10 +62,17 @@ Market GS está integrado como módulo del núcleo OB Workspace, compartiendo:
 
 ---
 
-## 📌 Próximos Pasos (Requerimientos Nuevos)
+## 📌 Próximos Pasos y Funcionalidades
 
-Según los [[02 - Projects/10 - Market GS/00 - Resumen/Requerimientos|requerimientos del cliente]], se necesitan 3 funcionalidades nuevas:
+Según los [[02 - Projects/10 - Market GS/00 - Resumen/Requerimientos|requerimientos del cliente]], el proyecto se divide en:
 
-1. **Venta mayorista** — Despacho con precio definido al momento
-2. **Precio variable** — Costo de compra fijo, precio de venta por transacción
-3. **Seguimiento de pedidos** — Control de dañados, devoluciones y wallet
+### Fase 1 (Core)
+1. **Venta mayorista** — Despacho con precio definido al momento.
+2. **Precio variable** — Costo de compra fijo, precio de venta por transacción.
+3. **Seguimiento de pedidos** — Control de dañados, devoluciones y wallet.
+
+### Fase 2 (Automatización e IA - "El Sueño a Largo Plazo")
+4. **Catálogo Flexible y Computer Vision** — Soporte para manillas/cables e ingreso de productos sacando fotos (auto-detección de color/tipo y generación de foto limpia "tipo estudio").
+5. **Catálogo Web Público** — Tienda online donde gerencia elige qué mostrar y a qué precio.
+6. **Agente IA 24/7 (TikTok Live)** — Chatbot que cierra ventas en WhatsApp automáticamente; los humanos solo empaquetan "Pedidos Pagados".
+7. **Notificaciones Ejecutivas** — Alertas al correo del CEO en tiempo real por cada venta/cobro.
