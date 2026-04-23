@@ -14,12 +14,16 @@ tags:
 ![BCO.0dfc9abf-39bb-4819-8db1-2ad377691468.png (1536×1024)](https://copilot.microsoft.com/th/id/BCO.0dfc9abf-39bb-4819-8db1-2ad377691468.png)
 
 ## 🗺️ Índice de Documentación Detallada
-Para una visión profunda de cada fase, consulta los siguientes artefactos:
 
-1.  **[01 - Requisitos del Sistema](./01%20-%20Requisitos/Requisitos%20del%20Sistema.md)**: Especificación funcional, límites de búsqueda y flujo Tinder.
-2.  **[02 - Modelo de Datos](./02%20-%20Arquitectura/Modelo%20de%20Datos.md)**: Esquema de base de datos (Prisma/PostgreSQL).
-3.  **[03 - Diseño de UI e Implementación](./03%20-%20Diseño/Diseño%20de%20UI%20e%20Implementacion.md)**: Mapa del sitio, componentes shadcn/ui y stack técnico.
-4.  **[04 - Integración y Flujos](./04%20-%20API%20&%20Integracion/Integracion%20y%20Flujos.md)**: Endpoints de API, ingesta de scraper y lógica de IA.
+1.  **[[Requisitos del Sistema]]**: Especificación funcional, límites de cuotas y gestión administrativa.
+2.  **Arquitectura y Estructura**:
+    *   **[[Modelo de Datos]]**: Esquema de base de datos (Prisma/PostgreSQL).
+    *   **[[Estructura de Carpetas]]**: Organización del código Next.js.
+    *   **[[Estructura de Modulos]]**: División funcional del dashboard.
+3.  **Diseño y Experiencia de Usuario**:
+    *   **[[Componentes y UI]]**: Guía de estilos, shadcn/ui y componentes dinámicos.
+4.  **Integración Técnica**:
+    *   **[[Integración y Flujos]]**: API para Scraper, Ingesta y Bots.
 
 ---
 
