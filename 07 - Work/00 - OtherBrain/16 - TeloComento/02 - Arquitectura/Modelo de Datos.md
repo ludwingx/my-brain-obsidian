@@ -32,6 +32,7 @@ parent: TeloComento
 - `externalId`: String (ID de la red social)
 - `content`: Text
 - `url`: String
+- urlimages: array[]
 - `publishDate`: DateTime
 - `sentiment`: Enum (`POSITIVE`, `NEUTRAL`, `NEGATIVE`)
 - `reviewStatus`: Enum (`PENDING`, `APPROVED`, `REJECTED`)
