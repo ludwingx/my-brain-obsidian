@@ -49,30 +49,32 @@
 - [x] Tableta grafica XP pen sTAR g405
 ### Tecnología & Setup
 - [ ] Intel Core i7-4790K (700 bs)
-- [ ] Teclado Redragon Ucal Pro K673 (900 bs) 
-- [ ] Power Bank EVGA 550 W - 600 W (500 bs)
+- [x] Teclado Redragon Ucal Pro K673 (900 bs) 
+- [x] Power Bank EVGA 550 W - 600 W (500 bs)
 - [ ] NVIDIA GTX 1660 Super - RTX 2060 (2250 bs)
 - [ ] Altavoces par Edifier negro  (1800 bs)
 - [x] Brazo doble para monitores
 - [ ] Chromecast
 - [ ] Reloj led digital para escritorio
 - [ ] Estuchera para mi teclado mecanico
+- [ ] Iphone
+- [ ] Relog Calculadora Casio
 ---
 ### Cuidado Personal (Aun no voy al ortodoncista, si voy es importante todo esto)
-- [ ] Crema hidratante para cara
-- [ ] Crema corporal
+- [x] Crema hidratante para cara
+- [x] Crema corporal
 - [ ] Pasta Dental carbón activado colgate
 - [ ] Enjuague bucal carbón activado colgate
 - [ ] limpiador de dientes ortodoncia colgate
 - [ ] Cepillo de dientes carbón activado 
 - [ ] cepillo interdental
-- [ ] hilo dental
-- [ ] Kit para limpiar uñas
+- [x] hilo dental
+- [x] Kit para limpiar uñas
 - [ ] Kit para limpiar oidos
 ---
 ### Porear
 - [x] Mate Imperial (300 bs)
-- [ ] Canarias 1 kg 
+- [x] Canarias 1 kg 
 - [x] pajarito
 - [x] Taragüi
 - [x] Termo agua caliente 1 litro
@@ -95,10 +97,12 @@
  - [ ] 1 canguro azul
  - [ ] 2 poleras basicas azules oscuros
  - [ ] 1 pantalon negro
- - [ ] 12 calcetines
+ - [x] 12 calcetines
+ - [ ] chamarra nike
+ - [ ] 
 #### Zapatos:
- - [ ] blancos
+ - [x] blancos
  - [ ] converse negros o grises
- - [ ] tenis grises
+ - [ ] nike
 ---
 ### 

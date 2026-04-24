@@ -254,6 +254,10 @@ flowchart TB
 - **Reportes**: Reportes de rentabilidad, ventas, inventario valorizado.
 - **Configuración**: Catálogos (marcas, modelos, colores, materiales, proveedores, tipos).
 - **Usuarios**: Roles y permisos.
+- **Guía (Onboarding)**: tutorial interactivo para configurar el sistema en orden lógico.
+- **Ajustes de perfil**: edición de perfil y cambio de contraseña.
+- **IA (sugerencias de modelos)**: endpoint para sugerir nombres de modelos por marca (asistencia al catálogo).
+- **Notificaciones**: subsistema persistente (DB) para alertas internas y eventos críticos.
 
 ### IV.2. Flujos Críticos
 
@@ -379,6 +383,48 @@ Existe un subsistema de notificaciones persistidas en DB:
   - `getNotificationsAction()` (últimas 20 + contador de no leídas).
   - `markNotificationReadAction(id)` / `markAllNotificationsReadAction()`.
   - `notifyAdminsAction(title, message, type)` → crea notificaciones para usuarios `role = 'admin'`.
+
+### V.4. Guía (Onboarding) — Tutorial interactivo
+
+**Objetivo:** acelerar el onboarding y reducir errores operativos, guiando al usuario a configurar catálogos y realizar las primeras operaciones.
+
+- **Ruta:** `src/app/(dashboard)/guia/page.tsx`
+- **Cliente UI:** `src/app/(dashboard)/guia/guia-client.tsx`
+- **Persistencia:** el server component calcula progreso real por conteos en DB (marcas, modelos, productos, compras, ventas, wallet).
+- **Finalización:** `completeTutorialAction()` (en `src/app/actions/users.ts`) marca `User.hasCompletedTutorial = true`.
+
+**Checklist real (pasos):**
+
+- **Cimientos:** marcas, tipos, materiales, proveedores.
+- **Estructura:** modelos, colores, productos.
+- **Operación:** compras, ventas, wallet.
+
+**Riesgos/Notas:** el tutorial es “source of truth” de setup inicial; cambios en los catálogos o nuevas entidades requieren actualizar este flujo.
+
+### V.5. Ajustes de Perfil (configuración personal)
+
+**Objetivo:** permitir al usuario actualizar su información y contraseña.
+
+- **Ruta:** `src/app/(dashboard)/ajustes/page.tsx`
+- **Server Action:** `updateProfileAction({ name?, currentPassword?, newPassword? })`
+- **Seguridad:** valida sesión, compara contraseña actual con `bcrypt.compare`, y persiste hash nuevo con `bcrypt.hash`.
+- **UI:** `ProfileClient` consume `user` (id, name, username, role).
+
+### V.6. IA: sugerencia de modelos (OpenRouter)
+
+**Objetivo:** acelerar la creación de modelos de teléfonos sugiriendo nombres recientes por marca dentro del módulo de configuración.
+
+- **Endpoint:** `POST /api/ai/suggest-models`
+- **Implementación:** `src/app/api/ai/suggest-models/route.ts`
+- **UI consumidora:** `CreateModelDialog` en `src/app/(dashboard)/configuracion/modelos/CreateModelDialog.tsx`
+- **Proveedor:** OpenRouter (`https://openrouter.ai/api/v1/chat/completions`)
+- **Env requerida:** `OPEN_ROUTER_KEY`
+
+**Reglas de negocio embebidas (Apple):**
+
+- Calcula la “serie confirmada” en función de año/mes (Apple lanza en septiembre).
+- Prohíbe sugerir series por encima del último lanzamiento.
+- Devuelve lista separada por comas y filtra duplicados con `existingModels`.
 
 <div style="page-break-after: always;"></div>
 
