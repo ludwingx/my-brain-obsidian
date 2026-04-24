@@ -24,6 +24,9 @@ Stack: Next.js 16 + Prisma + PostgreSQL
 
 ---
 
+- [[02 - Projects/10 - Market GS/MANUAL_MARKET_GS|📘 Manual de Usuario (Operativo)]]
+- [[02 - Projects/10 - Market GS/TECNICO_MARKET_GS|🛠️ Especificación Técnica (Análisis y Diseño)]]
+
 ## 📋 Secciones de la Documentación
 
 - 00 - Resumen
