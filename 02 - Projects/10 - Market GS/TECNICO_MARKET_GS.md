@@ -20,7 +20,7 @@ tags:
 
   <p>
     <strong>Preparado para:</strong> Gabriel Zabala Cespedes — CEO de Market GS<br>
-    <strong>Plataforma:</strong> Web (Next.js App Router)<br>
+    <strong>Plataforma:</strong> Web (Next.js 16)<br>
     <strong>Arquitectura & Desarrollo:</strong> T.S. Ludwing Armijo Saavedra<br>
     <strong>Fecha:</strong> Abril 2026
   </p>
@@ -122,6 +122,18 @@ Market GS es una plataforma web con tres dominios funcionales:
 | Auth | Jose (JWT) + bcryptjs | Sesiones y control de acceso |
 | Validación | Zod | Esquemas de entrada y consistencia |
 
+### II.1.1. Evidencia en código (dependencias)
+
+El repositorio implementa el stack anterior de forma explícita en `package.json`:
+
+- `next@^16.2.2`
+- `react@19.x`
+- `typescript@5.9.x`
+- `prisma@^7.6.0` / `@prisma/client@^7.6.0`
+- `tailwindcss@^4` + `next-themes`
+- `jose@^6` + `bcryptjs@^3`
+- `zod@^4`
+
 ### II.2. Estilo de Arquitectura (Monolito Modular)
 
 La aplicación está diseñada como un **monolito modular** en Next.js:
@@ -152,6 +164,11 @@ src/
 └── data/                      # catálogos estáticos
 ```
 
+### II.4. Persistencia e infraestructura en runtime
+
+- **Prisma Client** se crea con `@prisma/adapter-pg` (`PrismaPg`) usando `DATABASE_URL`, y se cachea en `globalThis` para evitar instancias múltiples en dev.
+- Algunos endpoints fuerzan `runtime = "nodejs"` para poder usar `fs` y escribir archivos de imagen.
+
 <div style="page-break-after: always;"></div>
 
 <div align="center">
@@ -176,18 +193,22 @@ El esquema de datos está diseñado para:
 ### III.2. Diagrama de Relaciones (Referencia)
 
 ```mermaid
-erDiagram
-    Brand ||--o{ PhoneModel : tiene
-    PhoneModel ||--o{ Product : tiene
-    ProductType ||--o{ Product : clasifica
-    Color ||--o{ Product : tiene
-    Material ||--o{ Product : compone
-    Supplier ||--o{ Purchase : recibe
-    Purchase ||--o{ PurchaseItem : contiene
-    Product ||--o{ InventoryMovement : registra
-    Product ||--o{ Sale : se_vende
-    Supplier ||--o{ WalletTransaction : tiene
-    User ||--o{ InventoryMovement : ejecuta
+flowchart TB
+  Brand[Brand] -->|tiene| PhoneModel[PhoneModel]
+  PhoneModel -->|tiene| Product[Product]
+
+  ProductType[ProductType] -->|clasifica| Product
+  Color[Color] -->|tiene| Product
+  Material[Material] -->|compone| Product
+
+  Supplier[Supplier] -->|recibe| Purchase[Purchase]
+  Purchase -->|contiene| PurchaseItem[PurchaseItem]
+
+  Product -->|registra| InventoryMovement[InventoryMovement]
+  User[User] -->|ejecuta| InventoryMovement
+
+  Product -->|se vende| Sale[Sale]
+  Supplier -->|tiene| WalletTransaction[WalletTransaction]
 ```
 
 ### III.3. Entidades Clave y Responsabilidades
@@ -244,12 +265,35 @@ erDiagram
 4. Registrar `InventoryMovement` por cada ajuste.
 5. Si hay daño: abrir compensación en `WalletTransaction` (según decisión del CEO).
 
+**Implementación real (Server Action):** `receivePurchaseAction(purchaseId, itemsData)`
+
+- Ejecuta `prisma.$transaction()`.
+- Para cada item:
+  - Actualiza `PurchaseItem.quantityGood` y `quantityDamaged` (sumando `quantityLost` dentro de `quantityDamaged` para mantener esquema).
+  - Incrementa `Product.stock` y `Product.stockDamaged`.
+  - Registra **tres movimientos** posibles:
+    - `entrada` → "Recepción de compra (Stock Bueno)"
+    - `entrada` → "Recepción de compra (Dañado Vendible)"
+    - `salida` → razón `perdida` + nota "Pérdida Absoluta" (cuando `quantityLost > 0`).
+  - La compra queda `recibido` o `parcial` según conciliación.
+
 #### Flujo B: Venta (precio variable)
 
 1. Seleccionar producto y cantidad.
 2. Registrar `unitPrice` real (no fijo).
 3. El sistema calcula `totalPrice` y margen vs `costPrice`.
 4. Descuenta stock y registra movimiento.
+
+**Implementación real (Server Action):** `createSaleAction({ items, ... })`
+
+- Ejecuta `db.$transaction()`.
+- Soporta venta desde:
+  - Stock normal (`Product.stock`)
+  - Stock dañado (`Product.stockDamaged`) si `isDamagedStock = true`
+- Registra ventas unitarias en `Sale`.
+- Notifica a admins:
+  - "Nueva venta registrada"
+  - "Stock bajo detectado" cuando `stock <= minStock`.
 
 <div style="page-break-after: always;"></div>
 
@@ -269,11 +313,72 @@ erDiagram
 - **Server Actions**: operaciones internas, mutaciones rápidas (auth, productos, ventas).
 - **API Routes**: CRUDs de catálogos y endpoints consumibles.
 
+### V.1.1. Endpoints REST implementados (evidencia en código)
+
+Los siguientes endpoints están implementados en `src/app/api/*`.
+
+**Catálogos**
+
+- `/api/brands`:
+  - `GET` → lista marcas activas.
+  - `POST` → crea marca (valida `name`, evita duplicados, opcional `logoUrl`).
+- `/api/phone-models`:
+  - `GET` → lista modelos por `status` (default: `active`).
+  - `POST` → crea modelo validando marca activa y evitando duplicados case-insensitive por `brandId+name`.
+  - `PATCH` → editar nombre.
+  - `DELETE` → soft delete (status = `deleted`).
+- `/api/colors`:
+  - `GET` → lista activos.
+  - `POST` → valida `hexCode` (`#RRGGBB` o `transparent`) y evita duplicado por nombre/hex.
+- `/api/materials`:
+  - `GET` / `POST`.
+- `/api/product-types`:
+  - `GET` / `POST`.
+- `/api/compatibility`:
+  - `GET` / `POST`.
+- `/api/providers` (Suppliers):
+  - `GET` / `POST`.
+
+**Inventario**
+
+- `/api/products`:
+  - `GET` → lista productos activos con relaciones.
+  - `POST` → crea producto vía `formData`, permite imagen.
+- `/api/products/[id]`:
+  - `PUT` → actualiza vía `formData`, permite imagen.
+  - `PATCH` → actualiza campos simples vía JSON (ej. `status`, `minStock`).
+  - `DELETE` → soft delete (status = `deleted`).
+
+- `/api/inventory-movements`:
+  - `GET` / `POST`.
+- `/api/inventory-movements/[id]`:
+  - `GET` / `PUT` / `DELETE`.
+
+### V.1.2. Uploads de imagen (implementación actual)
+
+El API de productos implementa guardado local:
+
+- Guarda el archivo en `public/uploads/` con nombre `product_<timestamp>_<rand>.jpg`.
+- Retorna `imageUrl` como ruta pública `"/uploads/<filename>"`.
+- Se fuerza `runtime = "nodejs"` para usar `fs`.
+
+**Nota técnica:** esto es perfecto para staging/local. Para producción, se recomienda migrar a un storage (S3/Supabase Storage) con CDN.
+
 ### V.2. Convenciones
 
 - Validación de entrada con Zod.
 - Respuestas con errores tipados.
 - Auditoría por `InventoryMovement` para cambios de stock.
+
+### V.3. Notificaciones internas (feature real)
+
+Existe un subsistema de notificaciones persistidas en DB:
+
+- Modelo: `Notification` (por usuario, con `isRead`, `type`).
+- Server Actions:
+  - `getNotificationsAction()` (últimas 20 + contador de no leídas).
+  - `markNotificationReadAction(id)` / `markAllNotificationsReadAction()`.
+  - `notifyAdminsAction(title, message, type)` → crea notificaciones para usuarios `role = 'admin'`.
 
 <div style="page-break-after: always;"></div>
 
