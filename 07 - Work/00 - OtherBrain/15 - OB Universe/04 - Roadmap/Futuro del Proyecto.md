@@ -16,4 +16,3 @@ Dado que OB Universe funciona actualmente como la capa de presentación consolid
    - Incorporar un feed transversal de alertas para que un usuario pueda ver, desde el OB Universe, si se cayó una integración de WhatsApp (en TeLoVendo) o si hubo un reporte inusual en "C.R.E. Insight".
 
 ---
-🔙 **Principal:** [[OB-Universe]]
