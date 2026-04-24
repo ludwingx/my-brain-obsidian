@@ -17,6 +17,7 @@ tags: [Finanzas, Prestamos]
 | ----- | ------- | ---- | ----: | ------ | ------ | ------ | ----- | ----- |
 | 2026-04-23 | Ramón | preste | 20 | bs | Almuerzo | pendiente | | |
 | 2026-04-24 | Ramón | preste | 15 | bs | Almuerzo | pendiente | | |
+| 2026-04-24 | Maycol | preste | 17 | bs | Energizantes combo | pendiente | | |
 
 ## Estados (convención)
 
